@@ -1,0 +1,138 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+/// Enum untuk role pengguna dalam sistem
+/// OPERATOR: karyawan produksi yang membuat job order perbaikan
+/// MECHANIC: teknisi/mechanik yang mengerjakan perbaikan
+/// ADMIN: pengelola sistem (bisa approve, lihat laporan, dll)
+enum Role {
+  OPERATOR
+  MECHANIC
+  ADMIN
+}
+
+/// Tabel User - menyimpan data pengguna aplikasi
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique                  // Username untuk login
+  email     String   @unique                  // Email unik
+  password  String                            // Password yang sudah di-hash (jangan simpan plain text)
+  role      Role                              // Role pengguna (lihat enum Role di atas)
+  fullName  String?                           // Nama lengkap (opsional)
+  createdAt DateTime @default(now())         // Waktu dibuat otomatis
+  updatedAt DateTime @updatedAt             // Waktu terakhir diupdate otomatis
+
+  /// Relasi: Job order yang dibuat oleh user ini (biasanya operator)
+  createdRepairOrders RepairOrder[] @relation("CreatedBy")
+  
+  /// Relasi: Job order yang ditugaskan ke user ini (biasanya mechanic)
+  assignedRepairOrders RepairOrder[] @relation("AssignedTo")
+}
+
+/// Tabel Machine - daftar mesin yang ada di pabrik
+model Machine {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique                  // Nama mesin, harus unik (misal: Mesin Injection 01)
+  description String?                           // Deskripsi mesin (opsional)
+  location    String?                           // Lokasi mesin (misal: Line Produksi A)
+  status      String?                           // Status mesin: ACTIVE, MAINTENANCE, BROKEN, dll (opsional)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  /// Relasi: Semua job order perbaikan yang terkait dengan mesin ini
+  repairOrders RepairOrder[]
+}
+
+/// Enum untuk tingkat prioritas job order
+enum Priority {
+  LOW      // Rendah
+  MEDIUM   // Sedang
+  HIGH     // Tinggi / Mendesak
+}
+
+/// Enum untuk status job order
+enum Status {
+  PENDING      // Menunggu ditugaskan / dikerjakan
+  IN_PROGRESS  // Sedang dikerjakan oleh mechanic
+  COMPLETED    // Sudah selesai diperbaiki
+  CANCELLED    // Dibatalkan
+}
+
+/// Tabel utama: RepairOrder - surat perintah kerja / job order perbaikan mesin
+model RepairOrder {
+  id            Int      @id @default(autoincrement())
+  description   String                            // Deskripsi masalah yang dilaporkan operator
+  priority      Priority  @default(MEDIUM)        // Prioritas perbaikan
+  status        Status    @default(PENDING)       // Status job order
+  createdById   Int                               // ID user yang membuat (operator)
+  assignedToId  Int?                              // ID mechanic yang ditugaskan (nullable, karena awalnya belum ditugaskan)
+  machineId     Int                               // ID mesin yang bermasalah
+  createdAt     DateTime @default(now())          // Waktu job order dibuat
+  updatedAt     DateTime @updatedAt
+  startDate     DateTime?                         // Tanggal mulai perbaikan (diisi mechanic)
+  endDate       DateTime?                         // Tanggal selesai perbaikan (diisi mechanic)
+  notes         String?                           // Catatan tambahan dari mechanic atau operator
+
+  /// Relasi ke user yang membuat job order
+  createdBy     User      @relation("CreatedBy", fields: [createdById], references: [id])
+  
+  /// Relasi ke mechanic yang ditugaskan (opsional)
+  assignedTo    User?     @relation("AssignedTo", fields: [assignedToId], references: [id])
+  
+  /// Relasi ke mesin yang diperbaiki
+  machine       Machine   @relation(fields: [machineId], references: [id])
+
+  /// Relasi ke spare part yang digunakan dalam perbaikan ini (banyak ke banyak)
+  repairParts   RepairPart[]
+}
+
+/// Tabel Part - master data spare part (opsional, jika ingin tracking stok)
+model Part {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique                  // Nama part (misal: Bearing 6204)
+  description String?                           // Deskripsi part
+  stock       Int      @default(0)              // Jumlah stok saat ini
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  /// Relasi: Part yang digunakan di berbagai job order
+  repairParts RepairPart[]
+}
+
+/// Tabel penghubung: RepairPart - mencatat spare part apa saja yang dipakai di satu job order
+model RepairPart {
+  id            Int      @id @default(autoincrement())
+  repairOrderId Int                               // ID job order
+  partId        Int                               // ID spare part
+  quantity      Int                               // Jumlah part yang dipakai
+  createdAt     DateTime @default(now())
+
+  /// Relasi ke job order
+  repairOrder   RepairOrder @relation(fields: [repairOrderId], references: [id])
+  
+  /// Relasi ke spare part
+  part          Part        @relation(fields: [partId], references: [id])
+
+  /// Index unik agar tidak ada duplikat part yang sama di satu job order
+  @@unique([repairOrderId, partId])
+}
+
+
+
+// Penjelasan alur penggunaan schema ini:
+
+// Operator melihat mesin rusak → buat RepairOrder baru, isi deskripsi masalah, pilih mesin, dan prioritas.
+// Admin/Supervisor melihat job order masuk → assign ke seorang Mechanic (isi assignedToId).
+// Mechanic mulai kerja → ubah status menjadi IN_PROGRESS, isi startDate.
+// Saat selesai → isi endDate, ubah status ke COMPLETED, tambahkan notes, dan catat spare part yang dipakai di tabel RepairPart.
+// Stok part otomatis bisa dikurangi (logika di aplikasi, bukan di schema).
+
+// Schema ini cukup fleksibel dan bisa dikembangkan lebih lanjut (misal tambah foto kerusakan, history status, approval, dll). Semoga penjelasan ini membantu! Jika ada bagian yang ingin ditambah atau diubah, beri tahu saja.
