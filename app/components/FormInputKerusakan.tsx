@@ -51,10 +51,22 @@ export function RepairOrderForm() {
     },
   });
 
-  function onSubmit(values: FormValues) {
-    console.log("Form submitted:", values);
-    // Di sini kirim ke API / Prisma untuk create RepairOrder
-    // createdById bisa diambil dari session user (misal operator login)
+  async function onSubmit(values: FormValues) {
+    fetch("/api/repairorder", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    description: "Mesin injection bocor oli dan suara abnormal",
+    priority: "HIGH",
+    machineId: 1,
+    assignedToId: 2,
+    notes: "Perlu pengecekan urgent",
+    createdById: 5, // idealnya dari session
+  }),
+});
+
   }
 
   return (
@@ -154,36 +166,43 @@ export function RepairOrderForm() {
                 
 
                 {/* Assigned To (Mechanic) - Opsional */}
-                <FormField
-                  control={form.control}
-                  name="assignedToId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-800 font-semibold">Ditugaskan Kepada (Opsional)</FormLabel>
-                      <Select
-                        onValueChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
-                        value={field.value?.toString()}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="border-gray-300 focus:border-orange-500">
-                            <SelectValue placeholder="Pilih mekanik (opsional)" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="bg-gray-50">
-                          {mechanics.map((mechanic) => (
-                            <SelectItem key={mechanic.id} value={mechanic.id.toString()} className="bg-gray-50">
-                              {mechanic.fullName}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormDescription className="text-gray-600">
-                        Bisa dikosongkan, supervisor akan assign nanti
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="assignedToId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-800 font-semibold">
+                          Ditugaskan Kepada (Opsional)
+                        </FormLabel>
+
+                        <Select
+                          onValueChange={(value) =>
+                            field.onChange(value ? parseInt(value) : undefined)
+                          }
+                          value={field.value?.toString()}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="border-gray-300 focus:border-orange-500">
+                              <SelectValue placeholder="Pilih ID Mekanik" />
+                            </SelectTrigger>
+                          </FormControl>
+
+                          <SelectContent className="bg-gray-50">
+                            <SelectItem value="1">1</SelectItem>
+                            <SelectItem value="2">2</SelectItem>
+                            <SelectItem value="3">3</SelectItem>
+                          </SelectContent>
+                        </Select>
+
+                        <FormDescription className="text-gray-600">
+                          Bisa dikosongkan, supervisor akan assign nanti
+                        </FormDescription>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
 
 
                 <div className="flex col-2  gap-3 ">
@@ -214,7 +233,7 @@ export function RepairOrderForm() {
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
-                            disabled={(date:any) => date < new Date("1900-01-01")}
+                            disabled={(date) => date < new Date("1900-01-01")}
                             initialFocus className="bg-gray-50"
                           />
                         </PopoverContent>

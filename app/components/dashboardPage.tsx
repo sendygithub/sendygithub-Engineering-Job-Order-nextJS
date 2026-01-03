@@ -26,6 +26,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
+import Link from "next/link";
 
 
 // Mock data for job orders
@@ -162,7 +163,7 @@ export function EngineeringDashboard() {
           </button>
           <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors">
             <Wrench className="size-5 shrink-0" />
-            {sidebarOpen && <span>Maintenance</span>}
+            {sidebarOpen && <Link href="/input">Maintenance</Link>}
           </button>
           <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors">
             <Package className="size-5 shrink-0" />
