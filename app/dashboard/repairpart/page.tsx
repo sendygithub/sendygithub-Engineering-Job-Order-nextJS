@@ -1,5 +1,5 @@
 import React from 'react'
-import FormInputRepairPart from '../components/FormInputRepairPart'
+import FormInputRepairPart from '../../components/FormInputRepairPart'
 
 const page = () => {
   return (

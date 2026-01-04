@@ -22,11 +22,7 @@ const machines = [
   { id: 3, name: "Mesin CNC A1" },
 ];
 
-const mechanics = [
-  { id: 1, fullName: "Ahmad Mekanik" },
-  { id: 2, fullName: "Budi Teknik" },
-  { id: 3, fullName: "Cahyo Senior" },
-];
+
 
 // Zod Schema untuk validasi (sesuaikan dengan model Prisma)
 const formSchema = z.object({
@@ -85,6 +81,9 @@ export function RepairOrderForm() {
           <CardContent className="pt-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                
+                
+                
                 {/* Deskripsi Masalah */}
                 <FormField
                   control={form.control}

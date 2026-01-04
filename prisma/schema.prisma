@@ -80,7 +80,7 @@ model RepairOrder {
   endDate       DateTime?                         // Tanggal selesai perbaikan (diisi mechanic)
   notes         String?                           // Catatan tambahan dari mechanic atau operator
 
-  /// Relasi ke user yang membuat job order
+  /// Relasi ke user yang membuat job order SUDAH JADI APINYA
   createdBy     User      @relation("CreatedBy", fields: [createdById], references: [id])
   
   /// Relasi ke mechanic yang ditugaskan (opsional)

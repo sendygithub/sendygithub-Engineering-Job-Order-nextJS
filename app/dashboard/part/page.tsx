@@ -1,5 +1,5 @@
 import React from 'react'
-import FormInputPart from '../components/FormInputPart'
+import FormInputPart from '../../components/FormInputPart'
 
 const page = () => {
   return (

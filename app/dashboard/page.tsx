@@ -3,7 +3,7 @@ import { EngineeringDashboard } from '../components/dashboardPage'
 
 const page = () => {
   return (
-    <EngineeringDashboard />
+   <p>xx</p>
   )
 }
 

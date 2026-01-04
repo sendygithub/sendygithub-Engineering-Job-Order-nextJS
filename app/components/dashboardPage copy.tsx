@@ -168,7 +168,7 @@ export function EngineeringDashboard() {
           </button>
           <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors">
             <Package className="size-5 shrink-0" />
-            {sidebarOpen && <span>Inventoryss</span>}
+            {sidebarOpen && <span>Inventory</span>}
           </button>
           <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors">
             <Calendar className="size-5 shrink-0" />
@@ -192,7 +192,35 @@ export function EngineeringDashboard() {
         }`}
       >
         {/* Header */}
-        
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+          <div className="px-4 py-3 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+              >
+                <Menu className="size-5" />
+              </Button>
+              <div>
+                <h1 className="text-lg md:text-xl">Engineering Job Order</h1>
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  PT. Gajah Tunggal. Tbk
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" className="relative">
+                <Bell className="size-5" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+              </Button>
+              <Button variant="ghost" size="icon">
+                <User className="size-5" />
+              </Button>
+            </div>
+          </div>
+        </header>
 
         {/* Dashboard Content */}
         <main className="p-4 md:p-6 space-y-6">

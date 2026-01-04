@@ -1,9 +1,10 @@
+
 import React from 'react'
-import FormInputMesin from '../components/FormInputMesin'
+import LoginAdmin from '../../components/LoginAdmin'
 
 const page = () => {
   return (
-    <FormInputMesin />
+    <LoginAdmin />
   )
 }
 
