@@ -69,7 +69,7 @@ export function EngineeringDashboard({ children }: EngineeringDashboardProps) {
 
   <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700">
     <Package className="size-5 shrink-0" />
-    {sidebarOpen && <Link href="/dashboard/input">input</Link>}
+    {sidebarOpen && <Link href="/dashboard/RepairOrder">input</Link>}
   </div>
 
   <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700">

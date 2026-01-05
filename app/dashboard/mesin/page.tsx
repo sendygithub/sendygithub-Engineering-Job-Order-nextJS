@@ -1,9 +1,15 @@
 import React from 'react'
 import FormInputMesin from '../../components/FormInputMesin'
+import TableMesin from '@/app/components/table/TableMesin'
 
 const page = () => {
   return (
-    <FormInputMesin />
+    <div>
+
+      <TableMesin/>
+      <FormInputMesin />
+    </div>
+    
   )
 }
 

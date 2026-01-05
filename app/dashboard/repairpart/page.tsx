@@ -1,9 +1,14 @@
 import React from 'react'
 import FormInputRepairPart from '../../components/FormInputRepairPart'
+import TableRepairPart from '@/app/components/table/TableRepairPart'
 
 const page = () => {
   return (
-    <FormInputRepairPart />
+    <div>
+      <TableRepairPart/>
+      <FormInputRepairPart />
+    </div>
+    
   )
 }
 
