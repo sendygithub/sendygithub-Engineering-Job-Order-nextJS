@@ -8,9 +8,11 @@ const TablePart = () => {
     <Table.Root>
 	<Table.Header>
 		<Table.Row>
-			<Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Group</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>ID</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Stok</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
 		</Table.Row>
 	</Table.Header>
 

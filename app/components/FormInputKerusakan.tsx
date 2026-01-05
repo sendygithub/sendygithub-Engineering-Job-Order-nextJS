@@ -72,13 +72,13 @@ export function RepairOrderForm() {
           <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-t-lg">
             <CardTitle className="text-3xl font-bold flex items-center gap-3">
               <Wrench className="w-10 h-10" />
-              Buat Surat Perintah Perbaikan Mesin
+             Job Order
             </CardTitle>
             <CardDescription className="text-orange-100">
               Laporkan kerusakan mesin untuk ditangani oleh tim mekanik
             </CardDescription>
           </CardHeader>
-          <CardContent className="pt-8">
+          <CardContent className="pt-1">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 

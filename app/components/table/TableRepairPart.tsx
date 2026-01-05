@@ -8,9 +8,11 @@ const TableRepairPart = () => {
     <Table.Root>
 	<Table.Header>
 		<Table.Row>
-			<Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Group</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Id</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Part Id</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Repair Id</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
 		</Table.Row>
 	</Table.Header>
 
