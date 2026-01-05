@@ -64,28 +64,28 @@ export function EngineeringDashboard({ children }: EngineeringDashboardProps) {
     className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors"
   >
     <Wrench className="size-5 shrink-0" />
-    {sidebarOpen && <Link href="/dashboard/inputuser">inputuser</Link>}
+    {sidebarOpen && <Link href="/dashboard/RepairOrder">Repair Order</Link>}
   </Link>
 
   <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700">
     <Package className="size-5 shrink-0" />
-    {sidebarOpen && <Link href="/dashboard/RepairOrder">input</Link>}
+    {sidebarOpen && <Link href="/dashboard/mesin">Machine</Link>}
   </div>
-
+<div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700">
+    <Settings className="size-5 shrink-0" />
+    {sidebarOpen && <Link href="/dashboard/repairpart">repairpart</Link>}
+  </div>
   <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700">
     <Calendar className="size-5 shrink-0" />
-    {sidebarOpen && <Link href="/dashboard/mesin">mesin</Link>}
+    {sidebarOpen && <Link href="/dashboard/part">Part</Link>}
   </div>
 
   <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700">
     <FileText className="size-5 shrink-0" />
-    {sidebarOpen && <Link href="/dashboard/part">part</Link>}
+    {sidebarOpen && <Link href="/dashboard/inputuser">User</Link>}
   </div>
 
-  <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700">
-    <Settings className="size-5 shrink-0" />
-    {sidebarOpen && <Link href="/dashboard/repairpart">repairpart</Link>}
-  </div>
+  
 </nav>
 
       </aside>

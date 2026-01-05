@@ -9,7 +9,6 @@ const page = () => {
     <div>
       <DialogUser/>
       <TableUser/>
-      <UserForm />
     </div>
   )
 }

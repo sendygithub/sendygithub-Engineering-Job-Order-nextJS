@@ -4,7 +4,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { User } from "lucide-react";
 import UserForm from "../FormInputUser";
 
-const DialogUser = () => (
+const DialogRepairOrder = () => (
 	<Dialog.Root>
 
 		{/* // Trigger Button */}
@@ -41,4 +41,4 @@ const DialogUser = () => (
 	</Dialog.Root>
 );
 
-export default DialogUser;
+export default DialogRepairOrder;
