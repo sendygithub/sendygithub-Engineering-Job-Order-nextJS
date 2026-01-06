@@ -1,11 +1,12 @@
 "use client";
 import * as React from "react";
-import { Dialog, Label, Select } from "radix-ui";
+import * as Dialog from "@radix-ui/react-dialog";
+import * as Label from "@radix-ui/react-label";
+import * as Select from "@radix-ui/react-select";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { ChevronDown, User } from "lucide-react";
-import UserForm from "../FormInputUser";
+import { ChevronDown} from "lucide-react";
 import { useState } from "react";
-import { roles } from "@/lib/roles";
+
 
 
 
@@ -35,8 +36,21 @@ function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
+    }).then(() => {
+      setForm({
+        username: "",
+        email: "",
+        password: "",
+        role: "",
+        fullName: "",
+      });
     });
+
+
+     window.location.reload();
   }
+
+
 
 
 
@@ -94,6 +108,20 @@ return (
             />
           </div>
 
+          {/* Full Name */}
+          <div className="space-y-1">
+            <Label.Root className="font-semibold">
+              Nama Lengkap (Opsional)
+            </Label.Root>
+            <input
+              name="fullName"
+              value={form.fullName}
+              onChange={handleChange}
+              className="w-full border rounded-md px-3 py-2"
+              placeholder="Nama lengkap"
+            />
+          </div>
+
           {/* Email */}
           <div className="space-y-1">
             <Label.Root className="font-semibold">
@@ -126,53 +154,54 @@ return (
             />
           </div>
 
-          {/* Role */}
           <div className="space-y-1">
-            <Label.Root className="font-semibold">
-              Role
-            </Label.Root>
+                     <Label.Root className="font-semibold">
+                        Role
+                     </Label.Root>
+         
+                     <Select.Root
+                       value={form.role}
+                       onValueChange={(value) =>
+                         setForm((prev) => ({ ...prev, role: value }))
+                       }
+                     >
+                       <Select.Trigger className="inline-flex items-center justify-between w-full px-3 py-2 border rounded-md bg-white hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                         <Select.Value placeholder="Pilih role" />
+                         <Select.Icon>
+                           <ChevronDown size={16} />
+                         </Select.Icon>
+                       </Select.Trigger>
+         
+                       <Select.Portal>
+                         <Select.Content className="bg-white border rounded-md shadow z-50">
+                           <Select.Viewport>
+                             <Select.Item
+                               value="OPERATOR"
+                               className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                             >
+                               <Select.ItemText>OPERATOR</Select.ItemText>
+                             </Select.Item>
+         
+                             <Select.Item
+                               value="MECHANIC"
+                               className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                             >
+                               <Select.ItemText>MECHANIC</Select.ItemText>
+                             </Select.Item>
+         
+                             <Select.Item
+                               value="ADMIN"
+                               className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                             >
+                               <Select.ItemText>ADMIN</Select.ItemText>
+                             </Select.Item>
+                           </Select.Viewport>
+                         </Select.Content>
+                       </Select.Portal>
+                     </Select.Root>
+                   </div>
 
-            <Select.Root
-              onValueChange={(value) =>
-                setForm({ ...form, role: value })
-              }
-            >
-              <Select.Trigger className="w-full border rounded-md px-3 py-2 flex justify-between items-center">
-                <Select.Value placeholder="Pilih role" />
-                <ChevronDown size={16} />
-              </Select.Trigger>
-
-              <Select.Content className="bg-white border rounded-md shadow">
-                <Select.Viewport>
-                  {roles.map((role) => (
-                    <Select.Item
-                      key={role.value}
-                      value={role.value}
-                      className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                    >
-                      <Select.ItemText>
-                        {role.label}
-                      </Select.ItemText>
-                    </Select.Item>
-                  ))}
-                </Select.Viewport>
-              </Select.Content>
-            </Select.Root>
-          </div>
-
-          {/* Full Name */}
-          <div className="space-y-1">
-            <Label.Root className="font-semibold">
-              Nama Lengkap (Opsional)
-            </Label.Root>
-            <input
-              name="fullName"
-              value={form.fullName}
-              onChange={handleChange}
-              className="w-full border rounded-md px-3 py-2"
-              placeholder="Nama lengkap"
-            />
-          </div>
+          
 
           {/* SUBMIT */}
           <div className="flex justify-end pt-4">

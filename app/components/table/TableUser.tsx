@@ -1,43 +1,35 @@
-import React from 'react'
-import { Table } from  "@radix-ui/themes";
+"use client";
 
+import { useEffect, useState } from "react";
+import { UserCard } from "@/app/components/dialog/CardUser"
 
-const TableUser = () => {
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+};
+
+export default function UsersPage() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/user")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
   return (
-    
-    <Table.Root>
-	<Table.Header>
-		<Table.Row>
-			<Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Role</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Username</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
-		</Table.Row>
-	</Table.Header>
-
-	<Table.Body>
-		<Table.Row>
-			<Table.RowHeaderCell>Danilo Sousa</Table.RowHeaderCell>
-			<Table.Cell>danilo@example.com</Table.Cell>
-			<Table.Cell>Developer</Table.Cell>
-		</Table.Row>
-
-		<Table.Row>
-			<Table.RowHeaderCell>Zahra Ambessa</Table.RowHeaderCell>
-			<Table.Cell>zahra@example.com</Table.Cell>
-			<Table.Cell>Admin</Table.Cell>
-		</Table.Row>
-
-		<Table.Row>
-			<Table.RowHeaderCell>Jasper Eriksson</Table.RowHeaderCell>
-			<Table.Cell>jasper@example.com</Table.Cell>
-			<Table.Cell>Developer</Table.Cell>
-		</Table.Row>
-	</Table.Body>
-</Table.Root>
-
-  )
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {users.map((user) => (
+        <UserCard key={user.id} user={user} />
+      ))}
+    </div>
+  );
 }
-
-export default TableUser

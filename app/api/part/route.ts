@@ -7,10 +7,10 @@ import { prisma } from "@/lib/prisma";
 ========================= */
 const createUserSchema = z.object({
   name: z.string().min(3, "Nama minimal 3 karakter"),
-  description: z.string().min(3, "minimal 6 karakter"),
-  status: z.string().min(6, "minimal 6 karakter"),
-  location: z.string().optional(),
+  description: z.string().min(3, "Deskripsi minimal 3 karakter"),
+  stock: z.coerce.number().min(1, "Stock minimal 1"),
 });
+
 
 /* =========================
    API POST
@@ -18,12 +18,13 @@ const createUserSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    console.log("RAW BODY DARI CLIENT:", body);
 
     // Validasi input
     const data = createUserSchema.parse(body);
 
     // Cek duplicate
-    const exists = await prisma.machine.findFirst({
+    const exists = await prisma.part.findFirst({
       where: {
         OR: [
           { name: data.name },
@@ -40,19 +41,17 @@ export async function POST(req: Request) {
     }
 
     // Create user
-    const user = await prisma.machine.create({
+    const user = await prisma.part.create({
       data: {
         name: data.name,
         description: data.description,
-        location: data.location,
-        status: data.status,
+        stock: data.stock,
       },
       select: {
         id: true,
         name: true,
         description: true,
-        location: true,
-        status: true,
+        stock: true,
         createdAt: true,
       },
     });

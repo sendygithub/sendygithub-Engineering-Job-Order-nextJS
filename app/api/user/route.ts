@@ -10,7 +10,7 @@ const createUserSchema = z.object({
   username: z.string().min(3, "Username minimal 3 karakter"),
   email: z.string().email("Email tidak valid"),
   password: z.string().min(6, "Password minimal 6 karakter"),
-  role: z.enum(["ADMIN", "OPERATOR", "MECHANIC"]),
+  role: z.enum(["OPERATOR", "ADMIN", "MECHANIC"]),
   fullName: z.string().optional(),
 });
 
@@ -20,6 +20,7 @@ const createUserSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    console.log("RAW BODY DARI CLIENT:", body);
 
     // Validasi input
     const data = createUserSchema.parse(body);
@@ -82,6 +83,26 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+
+/* =========================
+   API GET
+========================= */
+
+export async function GET() {
+  try {
+    const users = await prisma.user.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    return NextResponse.json(users);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Gagal mengambil data user" },
       { status: 500 }
     );
   }

@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Dialog, Label, Select } from "radix-ui";
+import * as Dialog from "@radix-ui/react-dialog";
+import * as Label from "@radix-ui/react-label";
+import * as Select from "@radix-ui/react-select";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { ChevronDown} from "lucide-react";
 import FormInputMesin from "../FormInputMesin";
 import { useState } from "react";
-import { roles } from "@/lib/roles";
 
 export default function DialogMesin () {
 
@@ -16,7 +17,6 @@ export default function DialogMesin () {
 		description: "",
 		location: "",
 		status: "",
-		fullName: "",
 	  });
 	
 	  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -30,12 +30,22 @@ export default function DialogMesin () {
 		  method: "POST",
 		  headers: { "Content-Type": "application/json" },
 		  body: JSON.stringify(form),
+
+    }).then(() => {
+      setForm({
+        name: "",
+        description: "",
+        location: "",
+        status: "",
+        });
+
 		});
 	  }
 
 
 
-	   return (
+
+return (
 		<Dialog.Root>
 
 		{/* // Trigger Button */}
@@ -112,31 +122,54 @@ export default function DialogMesin () {
             />
           </div>
 
-          {/* status */}
+          
           <div className="space-y-1">
             <Label.Root className="font-semibold">
               Status
             </Label.Root>
 
             <Select.Root
-              
+              value={form.status}
+              onValueChange={(value) =>
+                setForm((prev) => ({ ...prev, status: value }))
+              }
             >
               <Select.Trigger className="inline-flex items-center justify-between w-full px-3 py-2 border rounded-md bg-white hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500">
                 <Select.Value placeholder="Pilih status" />
-                <ChevronDown size={16} />
+                <Select.Icon>
+                  <ChevronDown size={16} />
+                </Select.Icon>
               </Select.Trigger>
 
-              <Select.Content className="bg-white border rounded-md shadow">
-                <Select.Viewport>
-                 
-                    <Select.Item value="aktif" className="px-3 py-2 hover:bg-gray-100 cursor-pointer">
-                     aktif
+              <Select.Portal>
+                <Select.Content className="bg-white border rounded-md shadow z-50">
+                  <Select.Viewport>
+                    <Select.Item
+                      value="ACTIVE"
+                      className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                    >
+                      <Select.ItemText>ACTIVE</Select.ItemText>
                     </Select.Item>
-                  
-                </Select.Viewport>
-              </Select.Content>
+
+                    <Select.Item
+                      value="MAINTENANCE"
+                      className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                    >
+                      <Select.ItemText>MAINTENANCE</Select.ItemText>
+                    </Select.Item>
+
+                    <Select.Item
+                      value="BROKEN"
+                      className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                    >
+                      <Select.ItemText>BROKEN</Select.ItemText>
+                    </Select.Item>
+                  </Select.Viewport>
+                </Select.Content>
+              </Select.Portal>
             </Select.Root>
           </div>
+
 
           
 

@@ -22,6 +22,12 @@ export function FormInputPart() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
+    }).then(() => {
+      setForm({
+        name: "",
+        description: "",
+        stock: "",
+      });
     });
   }
 
