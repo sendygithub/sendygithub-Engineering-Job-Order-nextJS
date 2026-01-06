@@ -8,11 +8,13 @@ import { useState } from "react";
 import { roles } from "@/lib/roles";
 
 
+
+// deklarasi fungsi DialogUser
 export default function DialogUser () {
 
 
 
-  
+  // deklarasi state form user
 const [form, setForm] = useState({
 	username: "",
 	email: "",
@@ -21,10 +23,11 @@ const [form, setForm] = useState({
 	fullName: "",
   });
 
+  // fungsi handleChange untuk mengubah state form
 function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
-
+  // fungsi handleSubmit untuk mengirim data form ke API
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -38,22 +41,7 @@ function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 return (
-
 
 	<Dialog.Root>
 		{/* // Trigger Button */}
