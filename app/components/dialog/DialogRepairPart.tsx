@@ -1,11 +1,9 @@
 "use client";
 import * as React from "react";
-import { Dialog, Label } from "radix-ui";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { User } from "lucide-react";
-import UserForm from "../FormInputUser";
-import FormInputRepairPart from "../FormInputRepairPart";
+import { Dialog } from "radix-ui";
+import { Cross2Icon } from "@radix-ui/react-icons";;
 import { useState } from "react";
+import * as Label from "@radix-ui/react-label";
 
 export function DialogRepairPart () {
 

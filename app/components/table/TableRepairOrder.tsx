@@ -8,9 +8,15 @@ const TableRepairOrder = () => {
     <Table.Root>
 	<Table.Header>
 		<Table.Row>
-			<Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-			<Table.ColumnHeaderCell>Group</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>ID</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Priority</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>CreatedBy</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>AssigneeTo</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Mesin</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>StartDate</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
+			<Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
 		</Table.Row>
 	</Table.Header>
 
@@ -21,17 +27,9 @@ const TableRepairOrder = () => {
 			<Table.Cell>Developer</Table.Cell>
 		</Table.Row>
 
-		<Table.Row>
-			<Table.RowHeaderCell>Zahra Ambessa</Table.RowHeaderCell>
-			<Table.Cell>zahra@example.com</Table.Cell>
-			<Table.Cell>Admin</Table.Cell>
-		</Table.Row>
+		
 
-		<Table.Row>
-			<Table.RowHeaderCell>Jasper Eriksson</Table.RowHeaderCell>
-			<Table.Cell>jasper@example.com</Table.Cell>
-			<Table.Cell>Developer</Table.Cell>
-		</Table.Row>
+		
 	</Table.Body>
 </Table.Root>
 
