@@ -12,10 +12,10 @@ type User = {
 
 export function UserCard({ user }: { user: User }) {
   return (
-    <div className="rounded-lg border border-gray-900 bg-white p-3 shadow-sm hover:shadow-md transition">
+    <div className="rounded-lg border border-gray-900 bg-white p-3 shadow-sm hover:shadow-md transition duration-300 p-">
         <div className="flex justify-end"> 
-            <Button className="text-xs mt-2 text-blue-600 hover:underline">Edit User</Button>
-            <Button className="text-xs mt-2 ml-2 text-red-600 hover:underline">Delete User</Button>
+            <button className="text-xs mt-2 mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit User</button>
+            <Button className="text-xs mt-2 mr-2 bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Delete User</Button>
         </div>
        
       <div className="mb-2">

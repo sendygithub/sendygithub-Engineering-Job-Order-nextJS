@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Dialog } from "radix-ui";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import FormInputPart from "../FormInputPart";
 import { useState } from "react";
 import * as Label from "@radix-ui/react-label";
 
@@ -37,6 +36,8 @@ export function DialogPart () {
 
 
 	});
+
+	window.location.reload();
   }
 
 return (

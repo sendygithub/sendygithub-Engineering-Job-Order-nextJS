@@ -40,6 +40,8 @@ export default function DialogMesin () {
         });
 
 		});
+
+    window.location.reload();
 	  }
 
 

@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
  */
 const createRepairOrderSchema = z.object({
   description: z.string().min(10),
-  priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
+  priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
   machineId: z.number().int().positive(),
   assignedToId: z.number().int().optional(),
   startDate: z.coerce.date().optional(),
@@ -16,10 +16,11 @@ const createRepairOrderSchema = z.object({
   createdById: z.number().int(),
 });
 
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-
+    console.log("RAW BODY DARI CLIENT:", body);
     // VALIDASI BODY
     const data = createRepairOrderSchema.parse(body);
 
@@ -49,6 +50,19 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+
+export async function GET() {
+  try {
+    const repairOrders = await prisma.repairOrder.findMany();
+    return NextResponse.json(repairOrders);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Gagal mengambil data repair order" },
       { status: 500 }
     );
   }

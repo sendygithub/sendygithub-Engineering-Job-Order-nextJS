@@ -5,7 +5,6 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SelectContent } from "@radix-ui/react-select";
 import { Wrench, CalendarIcon } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../ui/card";
 import {
@@ -17,7 +16,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Button } from "../ui/button";
-import { Select, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Calendar } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Textarea } from "../ui/textarea";
@@ -27,52 +26,59 @@ import { format } from "date-fns";
 
 // Zod Schema untuk validasi (sesuaikan dengan model Prisma)
 const formSchema = z.object({
-	description: z.string().min(10),
-	priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
-	notes: z.string().min(10),
-	machineId: z.number(),
-	assignedToId: z.number(),
-	startDate: z.date(),
-	endDate: z.date(),
+  description: z.string().min(10),
+  priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
+  notes: z.string().min(10).optional(),
+  machineId: z.number(),
+  assignedToId: z.number().optional(),
+  startDate: z.date().optional(),
+  createdById: z.number(),
+  endDate: z.date().optional(),
 });
+
+type FormValues = z.infer<typeof formSchema>;
 
 
 
 
 // deklarasi fungsi DialogRepairOrder
 export function DialogRepairOrder () {
-	
-		// deklarasi state form repair order dengan useForm dari react-hook-form
-	const form = useForm<FormValues>({
-		resolver: zodResolver(formSchema),
-		defaultValues: {
-		priority: "",
-		description: "",
-		notes: "",
-		machineId: 1,
-		assignedToId: 2,
-		startDate: new Date(),
-		endDate: new Date(),
-		},
-	});
+	const [open, setOpen] = React.useState(false);
 
-	async function onSubmit(values: FormValues) {
-		fetch("/api/repairorder", {
-	method: "POST",
-	headers: {
-		"Content-Type": "application/json",
-	},
-	body: JSON.stringify({
-		description: values.description,
-		priority: values.priority,
-		machineId: values.machineId,
-		assignedToId: values.assignedToId,
-		notes: values.notes,
-		startDate: values.startDate,
-		endDate: values.endDate,
-	}),
-	});
-	}
+		// deklarasi state form repair order dengan useForm dari react-hook-form
+  const form = useForm<FormValues>({resolver: zodResolver(formSchema),
+    defaultValues: {
+    priority: undefined,
+    description: "",
+    notes: "",
+    machineId: undefined,
+    createdById: 1,
+    assignedToId: 2,
+    startDate: undefined,
+    endDate: undefined,
+    },
+  });
+
+  async function onSubmit(values: FormValues) {
+  const res = await fetch("/api/repairorder", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
+  })
+  .then(() => {
+    form.reset();
+    setOpen(false);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    form.reset();
+    setOpen(false);
+  }
+  );
+}
+
 
 
 
@@ -86,9 +92,10 @@ return (
 					</Dialog.Trigger>
 					{/* // The Modal Content */}
 					<Dialog.Portal>
-						<Dialog.Overlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow bg-blackA9" />
+             {/* BLUR DI BELAKNG */}
+						<Dialog.Overlay className="fixed inset-0 bg-black/50" />
 						<Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[500px] -translate-x-1/2 -translate-y-1/2 bg-gray-100 shadow-lg focus:outline-none data-[state=open]:animate-contentShow">
-						<div className="min-h-screen bg-gradient-to-br from-orange-50 to-gray-100 py-12 px-4">
+						<div className="flex flex-col bg-gradient-to-br from-orange-50 to-gray-100 py-12 px-4">
 						<div className="max-w-3xl mx-auto">
 							<Card className="border-orange-200 shadow-2xl bg-white/95 backdrop-blur">
 							<CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-t-lg">
@@ -97,7 +104,7 @@ return (
 								Job Order
 								</CardTitle>
 								<CardDescription className="text-orange-100">
-								Laporkan kerusakan mesin untuk ditangani oleh tim mekanik
+								Laporkan kerusakan machineId untuk ditangani oleh tim mekanik
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="pt-1">
@@ -115,7 +122,7 @@ return (
                       <FormLabel className="text-gray-800 font-semibold">Deskripsi Masalah</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Jelaskan detail kerusakan mesin..."
+                          placeholder="Jelaskan detail kerusakan machineId..."
                           className="resize-none min-h-15 border-gray-300 focus:border-orange-500 focus:ring-orange-500"
                           {...field}
                         />
@@ -136,7 +143,9 @@ return (
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-gray-800 font-semibold ">Prioritas Perbaikan</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select value={field.value} onValueChange={field.onChange}
+>
+
                         <FormControl>
                           <SelectTrigger className="border-gray-300 focus:border-orange-500">
                             <SelectValue placeholder="Pilih prioritas" />
@@ -152,23 +161,23 @@ return (
                     </FormItem>
                   )}
                 />
-                {/* Mesin */}
+                {/* machineId */}
                <FormField
                   control={form.control}
-                  name="mesin"
+                  name="machineId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-800 font-semibold ">pilih mesin</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormLabel className="text-gray-800 font-semibold ">pilih machineId</FormLabel>
+                      <Select value={field.value?.toString()} onValueChange={(value) => field.onChange(Number(value))}>
                         <FormControl>
                           <SelectTrigger className="border-gray-300 focus:border-orange-500">
                             <SelectValue placeholder="Pilih prioritas" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className="bg-gray-50">
-                          <SelectItem value="abc2">abc1</SelectItem>
-                          <SelectItem value="MEDIUM">Sedang</SelectItem>
-                          <SelectItem value="HIGH">Tinggi / Mendesak</SelectItem>
+                          <SelectItem value="1">1</SelectItem>
+                          <SelectItem value="2">2</SelectItem>
+                          <SelectItem value="3">3</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -291,8 +300,6 @@ return (
                     </FormItem>
                   )}
                 />
-
-
                 </div>
 
                
