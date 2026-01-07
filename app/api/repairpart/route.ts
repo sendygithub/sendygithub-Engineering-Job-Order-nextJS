@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           message: "Validasi gagal",
-          errors: error.errors,
+          errors: error,
         },
         { status: 400 }
       );
