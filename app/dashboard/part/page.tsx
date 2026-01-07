@@ -1,13 +1,13 @@
 import React from 'react'
-import FormInputPart from '../../components/FormInputPart'
-import TablePart from '@/app/components/TablePart'
 import DialogPart from '@/app/components/dialog/DialogPart'
+import TablePart from '@/app/components/table/TablePart'
 
 const page = () => {
   return (
     <div>
       <DialogPart/>
-    <TablePart/>
+      <TablePart/>
+    
     </div>
   )
 }

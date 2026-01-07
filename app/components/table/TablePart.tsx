@@ -1,8 +1,37 @@
+"use client"
 import React from 'react'
 import { Table } from  "@radix-ui/themes";
+import { useEffect, useState } from "react";
+
+
+type Part = {
+  id: string;
+  name: string;
+  description: string;
+  stock: number;
+};
+
 
 
 const TablePart = () => {
+
+	const [parts, setParts] = useState<Part[]>([]);
+	  const [loading, setLoading] = useState(true);
+	
+	  useEffect(() => {
+		fetch("/api/part")
+		  .then((res) => res.json())
+		  .then((data) => {
+			setParts(data);
+			setLoading(false);
+		  });
+	  }, []);
+	
+	  if (loading) return <p>Loading...</p>;
+
+
+
+
   return (
     
     <Table.Root>
@@ -16,24 +45,19 @@ const TablePart = () => {
 		</Table.Row>
 	</Table.Header>
 
-	<Table.Body>
-		<Table.Row>
-			<Table.RowHeaderCell>Danilo Sousa</Table.RowHeaderCell>
-			<Table.Cell>danilo@example.com</Table.Cell>
-			<Table.Cell>Developer</Table.Cell>
-		</Table.Row>
-
-		<Table.Row>
-			<Table.RowHeaderCell>Zahra Ambessa</Table.RowHeaderCell>
-			<Table.Cell>zahra@example.com</Table.Cell>
-			<Table.Cell>Admin</Table.Cell>
-		</Table.Row>
-
-		<Table.Row>
-			<Table.RowHeaderCell>Jasper Eriksson</Table.RowHeaderCell>
-			<Table.Cell>jasper@example.com</Table.Cell>
-			<Table.Cell>Developer</Table.Cell>
-		</Table.Row>
+	<Table.Body >
+		{parts.map((part) => (
+			<Table.Row key={part.id}>
+				<Table.RowHeaderCell>{part.id}</Table.RowHeaderCell>
+				<Table.Cell>{part.name}</Table.Cell>
+				<Table.Cell>{part.description}</Table.Cell>
+				<Table.Cell>{part.stock}</Table.Cell>
+				<Table.Cell>
+					<button className="text-blue-500 hover:underline mr-2">Edit</button>
+					<button className="text-red-500 hover:underline">Delete</button>
+				</Table.Cell>
+			</Table.Row>
+		))}
 	</Table.Body>
 </Table.Root>
 

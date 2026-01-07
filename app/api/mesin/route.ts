@@ -80,3 +80,23 @@ export async function POST(req: Request) {
     );
   }
 }
+
+
+/* =========================
+   API GET
+========================= */
+
+export async function GET() {
+  try {
+    const users = await prisma.machine.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    return NextResponse.json(users);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Gagal mengambil data user" },
+      { status: 500 }
+    );
+  }
+}

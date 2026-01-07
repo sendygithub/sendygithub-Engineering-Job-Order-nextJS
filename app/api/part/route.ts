@@ -79,3 +79,24 @@ export async function POST(req: Request) {
     );
   }
 }
+
+
+
+/* =========================
+   API GET
+========================= */
+
+export async function GET() {
+  try {
+    const parts = await prisma.part.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    return NextResponse.json(parts);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Gagal mengambil data part" },
+      { status: 500 }
+    );
+  }
+}
