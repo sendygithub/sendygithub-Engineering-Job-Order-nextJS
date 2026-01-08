@@ -42,7 +42,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 
 // deklarasi fungsi DialogRepairOrder
-export function DialogRepairOrder () {
+export function EditDialogRepairOrder () {
 	const [open, setOpen] = React.useState(false);
 
 		// deklarasi state form repair order dengan useForm dari react-hook-form
@@ -87,7 +87,7 @@ return (
 					{/* // Trigger Button */}
 					<Dialog.Trigger asChild>
 						<button className="inline-flex h-[35px] items-center justify-center rounded bg-violet4 px-[15px] font-medium leading-none text-violet11 outline-none outline-offset-1 hover:bg-mauve3 focus-visible:outline-2 focus-visible:outline-violet6 select-none bg-orange-500 text-white">
-							Tambah Job Order
+							Edit
 						</button>
 					</Dialog.Trigger>
 					{/* // The Modal Content */}
@@ -95,17 +95,19 @@ return (
              {/* BLUR DI BELAKNG */}
 						<Dialog.Overlay className="fixed inset-0 bg-black/50" />
 						<Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[500px] -translate-x-1/2 -translate-y-1/2 bg-gray-100 shadow-lg focus:outline-none data-[state=open]:animate-contentShow">
-						<div className="flex flex-col bg-gradient-to-br from-orange-50 to-gray-100 py-12 px-4">
+						
+            
+            
+            
+            <div >
 						<div className="max-w-3xl mx-auto">
 							<Card className="border-orange-200 shadow-2xl bg-white/95 backdrop-blur">
 							<CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-t-lg">
 								<CardTitle className="text-3xl font-bold flex items-center gap-3">
 								<Wrench className="w-10 h-10" />
-								Job Order
+								Edit Job Order
 								</CardTitle>
-								<CardDescription className="text-orange-100">
-								Laporkan kerusakan machineId untuk ditangani oleh tim mekanik
-								</CardDescription>
+								
 							</CardHeader>
 							<CardContent className="pt-1">
 								<Form {...form}>
@@ -340,41 +342,7 @@ return (
     </div>
 
 
-				
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-					
-				
-				<Dialog.Close asChild>
+					<Dialog.Close asChild>
 					<button
 						className="absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center rounded-full text-violet11 bg-gray3 hover:bg-orange-500 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
 						aria-label="Close"
@@ -388,4 +356,4 @@ return (
 	  );
 };
 
-export default DialogRepairOrder;
+export default EditDialogRepairOrder;

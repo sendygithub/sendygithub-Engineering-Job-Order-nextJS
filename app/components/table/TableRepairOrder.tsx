@@ -3,6 +3,7 @@
 import React, { use } from 'react'
 import { Table } from  "@radix-ui/themes";
 import { useEffect } from "react";
+import EditDialogRepairOrder from '../editdialog/EditDialogRepairOrder';
 
 
 type repairOrder = {
@@ -56,6 +57,8 @@ if (isLoading) return <p>Loading...</p>;
 			<Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
 			<Table.ColumnHeaderCell>Notes</Table.ColumnHeaderCell>
 			<Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
+			
+
 		</Table.Row>
 	</Table.Header>
 
@@ -72,8 +75,10 @@ if (isLoading) return <p>Loading...</p>;
 				<Table.Cell>{order.status}</Table.Cell>
 				<Table.Cell>{order.notes}</Table.Cell>
 				<Table.Cell>
-					<button className="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">selesai</button>
+					<EditDialogRepairOrder/>
+					
 					<button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 text-xs px-4 rounded">on progress</button>
+					<button className="bg-green-500 hover:bg-green-700 text-white text-xs font-bold py-2 px-4 rounded">selesai</button>
 				</Table.Cell>
 			</Table.Row>
 		))

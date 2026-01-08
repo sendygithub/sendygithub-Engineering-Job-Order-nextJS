@@ -9,7 +9,7 @@ import { ChevronDown} from "lucide-react";
 import FormInputMesin from "../FormInputMesin";
 import { useState } from "react";
 
-export default function DialogMesin () {
+export default function EditDialogMesin () {
 
 
 	const [form, setForm] = useState({
@@ -53,7 +53,7 @@ return (
 		{/* // Trigger Button */}
 		<Dialog.Trigger asChild>
 			<button className="inline-flex h-[35px] items-center justify-center rounded bg-violet4 px-[15px] font-medium leading-none text-violet11 outline-none outline-offset-1 hover:bg-mauve3 focus-visible:outline-2 focus-visible:outline-violet6 select-none bg-orange-500 text-white">
-				Tambah mesin
+				Edit
 			</button>
 		</Dialog.Trigger>
 		{/* // The Modal Content */}
@@ -61,16 +61,16 @@ return (
 			<Dialog.Overlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow bg-blackA9" />
 			<Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[500px] -translate-x-1/2 -translate-y-1/2 bg-gray-100 shadow-lg focus:outline-none data-[state=open]:animate-contentShow">
 				
- <div className="min-h-screen bg-gray-50 py-12 px-4">
+ <div>
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border">
 
         {/* HEADER */}
         <div className="bg-orange-600 text-white px-8 py-6 rounded-t-xl">
           <h1 className="text-2xl font-bold">
-            tambah mesin Baru
+            edit mesin
           </h1>
           <p className="text-orange-100 text-sm">
-            Form pendaftaran mesin sistem
+            Form edit mesin sistem
           </p>
         </div>
 
@@ -187,13 +187,6 @@ return (
         </form>
       </div>
     </div>
-
-
-
-				<FormInputMesin />
-
-
-				
 					
 				
 				<Dialog.Close asChild>

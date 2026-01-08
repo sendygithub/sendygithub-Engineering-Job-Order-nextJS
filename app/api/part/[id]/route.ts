@@ -1,64 +1,88 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(
-  req: Request,
+async function getPartId(
   context: { params: Promise<{ id: string }> }
 ) {
   const { id } = await context.params;
   const partId = Number(id);
 
-  if (isNaN(partId)) {
+  if (Number.isNaN(partId)) {
+    throw new Error("INVALID_ID");
+  }
+
+  return partId;
+}
+
+export async function GET(
+  _req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  try {
+    const partId = await getPartId(context);
+
+    const part = await prisma.part.findUnique({
+      where: { id: partId },
+    });
+
+    if (!part) {
+      return NextResponse.json(
+        { message: "Part tidak ditemukan" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(part);
+  } catch {
     return NextResponse.json(
       { message: "ID tidak valid" },
       { status: 400 }
     );
   }
-
-  const part = await prisma.part.findUnique({
-    where: { id: partId },
-  });
-
-  if (!part) {
-    return NextResponse.json(
-      { message: "Part tidak ditemukan" },
-      { status: 404 }
-    );
-  }
-
-  return NextResponse.json(part);
 }
 
 export async function PUT(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params;
-  const partId = Number(id);
-  const body = await req.json();
+  try {
+    const partId = await getPartId(context);
+    const { name, description, stock } = await req.json();
 
-  const part = await prisma.part.update({
-    where: { id: partId },
-    data: {
-      name: body.name,
-      description: body.description,
-      stock: Number(body.stock),
-    },
-  });
+    const part = await prisma.part.update({
+      where: { id: partId },
+      data: {
+        name,
+        description,
+        stock: Number(stock),
+      },
+    });
 
-  return NextResponse.json(part);
+    return NextResponse.json(part);
+  } catch {
+    return NextResponse.json(
+      { message: "ID tidak valid" },
+      { status: 400 }
+    );
+  }
 }
 
 export async function DELETE(
-  req: Request,
+  _req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params;
-  const partId = Number(id);
+  try {
+    const partId = await getPartId(context);
 
-  const part = await prisma.part.delete({
-    where: { id: partId },
-  });
+    const part = await prisma.part.delete({
+      where: { id: partId },
+    });
 
-  return NextResponse.json(part);
+    return NextResponse.json(part);
+  } catch {
+    return NextResponse.json(
+      { message: "ID tidak valid" },
+      { status: 400 }
+    );
+  }
 }

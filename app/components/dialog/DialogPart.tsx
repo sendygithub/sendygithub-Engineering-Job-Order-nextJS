@@ -58,7 +58,7 @@ return (
 			<Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[500px] -translate-x-1/2 -translate-y-1/2 bg-gray-100 shadow-lg focus:outline-none data-[state=open]:animate-contentShow">
 				
 		
-	<div className="min-h-screen bg-gray-50 py-12 px-4">
+	<div>
 	  <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border">
 
 		{/* HEADER */}
@@ -133,11 +133,8 @@ return (
 		  </div>
 		</form>
 	  </div>
-	</div>
 
-
-
-				<Dialog.Close asChild>
+	  <Dialog.Close asChild>
 					<button
 						className="absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center rounded-full text-violet11 bg-gray3 hover:bg-orange-500 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
 						aria-label="Close"
@@ -145,6 +142,11 @@ return (
 						<Cross2Icon />
 					</button>
 				</Dialog.Close>
+	</div>
+
+
+
+				
 			</Dialog.Content>
 		</Dialog.Portal>
 	</Dialog.Root>

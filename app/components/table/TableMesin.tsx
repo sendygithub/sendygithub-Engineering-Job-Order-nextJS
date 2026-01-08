@@ -3,6 +3,7 @@
 import React from 'react'
 import { Table } from  "@radix-ui/themes";
 import { useEffect } from "react";
+import EditDialogMesin from '../editdialog/EditDialogMesin';
 type MachineId = {
 	id: string
 	description: string
@@ -51,9 +52,7 @@ if (isLoading) return <p>Loading...</p>;
 				<Table.Cell>{machine.location}</Table.Cell>
 				<Table.Cell>{machine.status}</Table.Cell>
 				<Table.Cell>
-					<button className="bg-blue-500 text-xs hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-						Edit
-					</button>
+					<EditDialogMesin/>
 					<button className="bg-red-500 text-xs hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
 						delete
 					</button>

@@ -60,8 +60,8 @@ return (
 	<Dialog.Root>
 		{/* // Trigger Button */}
 		<Dialog.Trigger asChild>
-			<button className="inline-flex h-[35px] items-center justify-center rounded bg-violet4 px-[15px] font-medium leading-none text-violet11 outline-none outline-offset-1 hover:bg-mauve3 focus-visible:outline-2 focus-visible:outline-violet6 select-none bg-orange-500 text-white">
-				Tambah User
+			<button className="text-xs mt-2 mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded bg-orange-500 text-white">
+				Edit
 			</button>
 		</Dialog.Trigger>
 		{/* // The Modal Content */}
@@ -77,16 +77,16 @@ return (
 
 
 
-				<div className="min-h-screen bg-gray-50 py-12 px-4">
+				<div>
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border">
 
         {/* HEADER */}
         <div className="bg-orange-600 text-white px-8 py-6 rounded-t-xl">
           <h1 className="text-2xl font-bold">
-            Buat User Baru
+           Edit User
           </h1>
           <p className="text-orange-100 text-sm">
-            Form pendaftaran user sistem
+            Form Edit user
           </p>
         </div>
 
@@ -105,6 +105,7 @@ return (
               className="w-full border rounded-md px-3 py-2"
               placeholder="username"
               required
+              autoComplete="off"
             />
           </div>
 
@@ -209,7 +210,7 @@ return (
               type="submit"
               className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-md font-semibold"
             >
-              Simpan User
+              Update User
             </button>
           </div>
         </form>

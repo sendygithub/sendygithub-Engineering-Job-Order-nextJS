@@ -5,7 +5,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";;
 import { useState } from "react";
 import * as Label from "@radix-ui/react-label";
 
-export function DialogRepairPart () {
+export function EditDialogRepairPart () {
 
 
 
@@ -40,7 +40,7 @@ const [form, setForm] = useState({
 				{/* // Trigger Button */}
 				<Dialog.Trigger asChild>
 					<button className="inline-flex h-[35px] items-center justify-center rounded bg-violet4 px-[15px] font-medium leading-none text-violet11 outline-none outline-offset-1 hover:bg-mauve3 focus-visible:outline-2 focus-visible:outline-violet6 select-none bg-orange-500 text-white">
-						Tambah repairpart
+						Edit
 					</button>
 				</Dialog.Trigger>
 				{/* // The Modal Content */}
@@ -48,7 +48,7 @@ const [form, setForm] = useState({
 					<Dialog.Overlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow bg-blackA9" />
 					<Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[500px] -translate-x-1/2 -translate-y-1/2 bg-gray-100 shadow-lg focus:outline-none data-[state=open]:animate-contentShow">
 				
-					<div className="min-h-screen bg-gray-50 py-12 px-4">
+					<div>
 					  <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border">
 				
 						{/* HEADER */}
@@ -146,4 +146,4 @@ const [form, setForm] = useState({
 }
 ;
 
-export default DialogRepairPart;
+export default EditDialogRepairPart;

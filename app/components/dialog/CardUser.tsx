@@ -1,5 +1,6 @@
 "use client";
 
+import EditDialogUser from "../editdialog/EditDialogUser";
 import { Button } from "../ui/button";
 
 type User = {
@@ -14,7 +15,7 @@ export function UserCard({ user }: { user: User }) {
   return (
     <div className="rounded-lg border border-gray-900 bg-white p-3 shadow-sm hover:shadow-md transition duration-300 ">
         <div className="flex justify-end"> 
-            <button className="text-xs mt-2 mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit User</button>
+            <EditDialogUser/>
             <Button className="text-xs mt-2 mr-2 bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Delete User</Button>
         </div>
        

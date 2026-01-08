@@ -2,6 +2,7 @@
 import React from 'react'
 import { Table } from  "@radix-ui/themes";
 import { useEffect, useState } from "react";
+import EditDialogRepairPart from '../editdialog/EditDialogRepairPart';
 
 
 type RepairPart = {
@@ -50,7 +51,7 @@ const TableRepairPart = () => {
 				<Table.Cell>{repairPart.quantity}</Table.Cell>
 				<Table.Cell>{repairPart.repairOrderId}</Table.Cell>
 				<Table.Cell>
-					<button className="bg-blue-500 text-xs hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update</button>
+					<EditDialogRepairPart repairPart={repairPart} />
 					<button className="bg-red-500 text-xs hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Delete</button>
 				</Table.Cell>
 			</Table.Row>

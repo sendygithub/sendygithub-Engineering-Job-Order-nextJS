@@ -32,7 +32,7 @@ export function FormInputPart() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-gray-50 py-0 px-12">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border">
 
         {/* HEADER */}
