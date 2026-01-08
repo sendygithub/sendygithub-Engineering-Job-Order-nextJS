@@ -6,6 +6,8 @@ import { UserCard } from "@/app/components/dialog/CardUser"
 type User = {
   id: string;
   name: string;
+  username: string;
+  fullName: string;
   email: string;
   role: string;
 };
