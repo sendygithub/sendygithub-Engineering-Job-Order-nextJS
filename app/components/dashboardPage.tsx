@@ -108,15 +108,15 @@ export function EngineeringDashboard() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Completed":
-        return "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400";
+        return "bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400";
       case "In Progress":
         return "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400";
       case "Pending":
-        return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400";
+        return "bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-400";
       case "On Hold":
         return "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400";
       default:
-        return "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400";
+        return "bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-400";
     }
   };
 
@@ -125,18 +125,18 @@ export function EngineeringDashboard() {
       case "Critical":
         return "bg-red-500 text-white";
       case "High":
-        return "bg-orange-500 text-white";
+        return "bg-sky-600 text-white";
       case "Medium":
         return "bg-blue-500 text-white";
       case "Low":
-        return "bg-gray-500 text-white";
+        return "bg-slate-500 text-white";
       default:
-        return "bg-gray-500 text-white";
+        return "bg-slate-500 text-white";
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.08),_transparent_30%),#effbff] text-slate-900">
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full bg-slate-800 text-white transition-all duration-300 z-20 ${
@@ -145,7 +145,7 @@ export function EngineeringDashboard() {
       >
         <div className="p-4 border-b border-slate-700">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
               <Factory className="size-6" />
             </div>
             {sidebarOpen && (
@@ -158,7 +158,7 @@ export function EngineeringDashboard() {
         </div>
 
         <nav className="p-4 space-y-2">
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-orange-600 hover:bg-orange-700 transition-colors">
+          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-sky-600 hover:bg-sky-700 transition-colors text-white">
             <ClipboardList className="size-5 shrink-0" />
             {sidebarOpen && <span>Job Orders</span>}
           </button>
@@ -221,8 +221,8 @@ export function EngineeringDashboard() {
                   <h3 className="mt-2">28</h3>
                   <p className="text-xs text-blue-600 mt-1">Active jobs</p>
                 </div>
-                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
-                  <Clock className="size-6 text-orange-600 dark:text-orange-400" />
+                <div className="w-12 h-12 bg-sky-100 rounded-2xl flex items-center justify-center">
+                  <Clock className="size-6 text-sky-600" />
                 </div>
               </div>
             </Card>
@@ -234,8 +234,8 @@ export function EngineeringDashboard() {
                   <h3 className="mt-2">96</h3>
                   <p className="text-xs text-green-600 mt-1">67.6% completion</p>
                 </div>
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                  <CircleCheck className="size-6 text-green-600 dark:text-green-400" />
+                <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center">
+                  <CircleCheck className="size-6 text-blue-600" />
                 </div>
               </div>
             </Card>
@@ -247,8 +247,8 @@ export function EngineeringDashboard() {
                   <h3 className="mt-2">18</h3>
                   <p className="text-xs text-yellow-600 mt-1">Need attention</p>
                 </div>
-                <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
-                  <CircleAlert className="size-6 text-yellow-600 dark:text-yellow-400" />
+                <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center">
+                  <CircleAlert className="size-6 text-slate-600" />
                 </div>
               </div>
             </Card>
@@ -299,7 +299,7 @@ export function EngineeringDashboard() {
                 </thead>
                 <tbody>
                   {jobOrders.map((order) => (
-                    <tr key={order.id} className="border-b last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                    <tr key={order.id} className="border-b last:border-0 hover:bg-slate-100 transition-colors">
                       <td className="py-4 font-mono text-sm">{order.id}</td>
                       <td className="py-4">
                         <div className="font-medium">{order.title}</div>
@@ -321,7 +321,7 @@ export function EngineeringDashboard() {
                       <td className="py-4 text-sm">{order.dueDate}</td>
                       <td className="py-4">
                         <div className="flex items-center gap-2">
-                          <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                          <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
                             <div
                               className="h-full bg-blue-600"
                               style={{ width: `${order.progress}%` }}
@@ -343,7 +343,7 @@ export function EngineeringDashboard() {
               {jobOrders.map((order) => (
                 <div
                   key={order.id}
-                  className="p-4 border rounded-lg space-y-3 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                  className="p-4 border border-slate-200 rounded-3xl space-y-3 bg-white transition hover:bg-slate-100"
                 >
                   <div className="flex items-start justify-between">
                     <div>
@@ -379,7 +379,7 @@ export function EngineeringDashboard() {
                       <span className="text-muted-foreground">Progress</span>
                       <span>{order.progress}%</span>
                     </div>
-                    <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-blue-600"
                         style={{ width: `${order.progress}%` }}

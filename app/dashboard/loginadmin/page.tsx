@@ -1,6 +1,6 @@
 
 import React from 'react'
-import LoginAdmin from '../../components/LoginAdmin'
+import LoginAdmin from '../../components/admin/LoginAdmin'
 
 const page = () => {
   return (

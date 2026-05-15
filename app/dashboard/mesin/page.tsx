@@ -1,8 +1,7 @@
 import React from 'react'
-import FormInputMesin from '../../components/FormInputMesin'
-import TableMesin from '@/app/components/table/TableMesin'
-import DialogMesin from '@/app/components/dialog/DialogMesin'
-
+import FormInputMesin from '../../components/mesin/FormInputMesin'
+import TableMesin from '@/app/components/mesin/TableMesin'
+import DialogMesin from '@/app/components/mesin/DialogMesin'
 const page = () => {
   return (
     <div>

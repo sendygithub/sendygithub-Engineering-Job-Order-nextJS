@@ -1,6 +1,6 @@
 import React from 'react'
-import TableUser from '@/app/components/table/TableUser'
-import DialogUser from '@/app/components/dialog/DialogUser'
+import TableUser from '@/app/components/user/TableUser'
+import DialogUser from '@/app/components/user/DialogUser'
 
 const page = () => {
   return (

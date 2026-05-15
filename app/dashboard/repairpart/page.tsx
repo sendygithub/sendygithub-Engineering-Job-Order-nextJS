@@ -1,7 +1,6 @@
 import React from 'react'
-import FormInputRepairPart from '../../components/FormInputRepairPart'
-import TableRepairPart from '@/app/components/table/TableRepairPart'
-import DialogRepairPart from '@/app/components/dialog/DialogRepairPart'
+import TableRepairPart from '@/app/components/repair-part/TableRepairPart'
+import DialogRepairPart from '@/app/components/repair-part/DialogRepairPart'
 
 const page = () => {
   return (

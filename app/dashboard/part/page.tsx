@@ -1,6 +1,6 @@
 import React from 'react'
-import DialogPart from '@/app/components/dialog/DialogPart'
-import TablePart from '@/app/components/table/TablePart'
+import DialogPart from '@/app/components/part/DialogPart'
+import TablePart from '@/app/components/part/TablePart'
 
 const page = () => {
   return (
