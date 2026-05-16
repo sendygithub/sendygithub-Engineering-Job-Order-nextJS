@@ -1,12 +1,17 @@
 "use client";
 import * as React from "react";
-import * as Dialog from "@radix-ui/react-dialog";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription, 
+  DialogTrigger 
+} from "../ui/dialog";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Wrench, CalendarIcon } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../ui/card";
+import { Wrench, CalendarIcon, ShieldCheck, ClipboardList } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -23,8 +28,6 @@ import { Textarea } from "../ui/textarea";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 
-
-// Zod Schema untuk validasi (sesuaikan dengan model Prisma)
 const formSchema = z.object({
   description: z.string().min(10),
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
@@ -38,354 +41,281 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+export function DialogRepairOrder() {
+  const [open, setOpen] = React.useState(false);
 
-
-
-// deklarasi fungsi DialogRepairOrder
-export function DialogRepairOrder () {
-	const [open, setOpen] = React.useState(false);
-
-		// deklarasi state form repair order dengan useForm dari react-hook-form
-  const form = useForm<FormValues>({resolver: zodResolver(formSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-    priority: undefined,
-    description: "",
-    notes: "",
-    machineId: undefined,
-    createdById: 1,
-    assignedToId: 2,
-    startDate: undefined,
-    endDate: undefined,
+      priority: undefined,
+      description: "",
+      notes: "",
+      machineId: undefined,
+      createdById: 1,
+      assignedToId: 2,
+      startDate: undefined,
+      endDate: undefined,
     },
   });
 
   async function onSubmit(values: FormValues) {
-  const res = await fetch("/api/repairorder", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(values),
-  })
-  .then(() => {
-    form.reset();
-    setOpen(false);
-  })
-  .catch((err) => {
-    console.log(err);
-  })
-  .finally(() => {
-    form.reset();
-    setOpen(false);
+    try {
+      await fetch("/api/repairorder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      form.reset();
+      setOpen(false);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
   }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="bg-orange-600 hover:bg-orange-700 text-white shadow-lg shadow-orange-600/20">
+          <ClipboardList className="size-4 mr-2" />
+          Tambah Job Order
+        </Button>
+      </DialogTrigger>
+      
+      <DialogContent className="sm:max-w-[600px]">
+        <DialogHeader>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 bg-orange-500/10 rounded-lg">
+              <Wrench className="size-5 text-orange-500" />
+            </div>
+            <div>
+              <DialogTitle>Job Order Protocol</DialogTitle>
+              <DialogDescription>Initialize system maintenance request</DialogDescription>
+            </div>
+          </div>
+        </DialogHeader>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Description */}
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                    01 Description_of_Issue
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Input technical defect details..."
+                      className="bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-cyan-500/50 min-h-[100px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-[10px] font-mono" />
+                </FormItem>
+              )}
+            />
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Priority */}
+              <FormField
+                control={form.control}
+                name="priority"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                      02 Criticality_Level
+                    </FormLabel>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger className="bg-slate-900/50 border-slate-800 text-white focus:border-cyan-500/50">
+                          <SelectValue placeholder="Priority" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-slate-900 border-slate-800 text-slate-400">
+                        <SelectItem value="LOW">LOW_PRIORITY</SelectItem>
+                        <SelectItem value="MEDIUM">MEDIUM_PRIORITY</SelectItem>
+                        <SelectItem value="HIGH">HIGH_CRITICALITY</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-[10px] font-mono" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Machine ID */}
+              <FormField
+                control={form.control}
+                name="machineId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                      03 Machine_ID_Ref
+                    </FormLabel>
+                    <Select value={field.value?.toString()} onValueChange={(value) => field.onChange(Number(value))}>
+                      <FormControl>
+                        <SelectTrigger className="bg-slate-900/50 border-slate-800 text-white focus:border-cyan-500/50">
+                          <SelectValue placeholder="ID" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-slate-900 border-slate-800 text-slate-400">
+                        {[1, 2, 3].map((id) => (
+                          <SelectItem key={id} value={id.toString()}>MCH_{id.toString().padStart(3, '0')}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-[10px] font-mono" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Assigned To */}
+            <FormField
+              control={form.control}
+              name="assignedToId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                    04 Mechanic_Assignment
+                  </FormLabel>
+                  <Select value={field.value?.toString()} onValueChange={(value) => field.onChange(Number(value))}>
+                    <FormControl>
+                      <SelectTrigger className="bg-slate-900/50 border-slate-800 text-white focus:border-cyan-500/50">
+                        <SelectValue placeholder="Select Technician" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-slate-900 border-slate-800 text-slate-400">
+                      {[1, 2, 3].map((id) => (
+                        <SelectItem key={id} value={id.toString()}>TECH_UNIT_{id.toString().padStart(2, '0')}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage className="text-[10px] font-mono" />
+                </FormItem>
+              )}
+            />
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Start Date */}
+              <FormField
+                control={form.control}
+                name="startDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                      05 Initialization_Date
+                    </FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "pl-3 text-left font-mono text-xs bg-slate-900/50 border-slate-800 text-white hover:bg-slate-900",
+                              !field.value && "text-slate-700"
+                            )}
+                          >
+                            {field.value ? format(field.value, "yyyy-MM-dd") : <span>YYYY-MM-DD</span>}
+                            <CalendarIcon className="ml-auto h-4 w-4 text-cyan-500/50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 border-slate-800" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < new Date("1900-01-01")}
+                          className="bg-slate-950 text-white border-slate-800"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage className="text-[10px] font-mono" />
+                  </FormItem>
+                )}
+              />
+
+              {/* End Date */}
+              <FormField
+                control={form.control}
+                name="endDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                      06 Target_Completion
+                    </FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "pl-3 text-left font-mono text-xs bg-slate-900/50 border-slate-800 text-white hover:bg-slate-900",
+                              !field.value && "text-slate-700"
+                            )}
+                          >
+                            {field.value ? format(field.value, "yyyy-MM-dd") : <span>YYYY-MM-DD</span>}
+                            <CalendarIcon className="ml-auto h-4 w-4 text-orange-500/50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 border-slate-800" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < new Date("1900-01-01")}
+                          className="bg-slate-950 text-white border-slate-800"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage className="text-[10px] font-mono" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Notes */}
+            <FormField
+              control={form.control}
+              name="notes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                    07 Technical_Notes
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Additional logs..."
+                      className="bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-cyan-500/50 min-h-[60px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-[10px] font-mono" />
+                </FormItem>
+              )}
+            />
+
+            <div className="flex items-center justify-between pt-6 mt-6 border-t border-white/5">
+              <div className="flex items-center gap-2 text-[10px] font-mono text-slate-600 uppercase tracking-tighter">
+                <ShieldCheck className="size-3 text-cyan-500/50" />
+                AUTH_PROTOCOL_ACTIVE
+              </div>
+              <Button
+                type="submit"
+                className="bg-white text-slate-950 hover:bg-cyan-500 hover:text-white font-black uppercase italic tracking-widest px-8 shadow-lg shadow-white/5"
+              >
+                Execute Order
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 }
-
-
-
-
-return (
-				<Dialog.Root>
-					{/* // Trigger Button */}
-					<Dialog.Trigger asChild>
-						<button className="inline-flex h-[35px] items-center justify-center rounded bg-violet4 px-[15px] font-medium leading-none text-violet11 outline-none outline-offset-1 hover:bg-mauve3 focus-visible:outline-2 focus-visible:outline-violet6 select-none bg-orange-500 text-white">
-							Tambah Job Order
-						</button>
-					</Dialog.Trigger>
-					{/* // The Modal Content */}
-					<Dialog.Portal>
-             {/* BLUR DI BELAKNG */}
-						<Dialog.Overlay className="fixed inset-0 bg-black/50" />
-						<Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[500px] -translate-x-1/2 -translate-y-1/2 bg-gray-100 shadow-lg focus:outline-none data-[state=open]:animate-contentShow">
-						<div className="flex flex-col bg-gradient-to-br from-orange-50 to-gray-100 py-12 px-4">
-						<div className="max-w-3xl mx-auto">
-							<Card className="border-orange-200 shadow-2xl bg-white/95 backdrop-blur">
-							<CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-t-lg">
-								<CardTitle className="text-3xl font-bold flex items-center gap-3">
-								<Wrench className="w-10 h-10" />
-								Job Order
-								</CardTitle>
-								<CardDescription className="text-orange-100">
-								Laporkan kerusakan machineId untuk ditangani oleh tim mekanik
-								</CardDescription>
-							</CardHeader>
-							<CardContent className="pt-1">
-								<Form {...form}>
-								<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-									
-									
-                
-                {/* Deskripsi Masalah */}
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-800 font-semibold">Deskripsi Masalah</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Jelaskan detail kerusakan machineId..."
-                          className="resize-none min-h-15 border-gray-300 focus:border-orange-500 focus:ring-orange-500"
-                          {...field}
-                        />
-                      </FormControl>
-                     
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                 {/* Garis pemisah */}
-                
-                <div className="flex col-2  gap-3 ">
-                    {/* Prioritas */}
-                <FormField
-                  control={form.control}
-                  name="priority"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-800 font-semibold ">Prioritas Perbaikan</FormLabel>
-                      <Select value={field.value} onValueChange={field.onChange}
->
-
-                        <FormControl>
-                          <SelectTrigger className="border-gray-300 focus:border-orange-500">
-                            <SelectValue placeholder="Pilih prioritas" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="bg-gray-50">
-                          <SelectItem value="LOW">Rendah</SelectItem>
-                          <SelectItem value="MEDIUM">Sedang</SelectItem>
-                          <SelectItem value="HIGH">Tinggi / Mendesak</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* machineId */}
-               <FormField
-                  control={form.control}
-                  name="machineId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-800 font-semibold ">pilih machineId</FormLabel>
-                      <Select value={field.value?.toString()} onValueChange={(value) => field.onChange(Number(value))}>
-                        <FormControl>
-                          <SelectTrigger className="border-gray-300 focus:border-orange-500">
-                            <SelectValue placeholder="Pilih prioritas" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="bg-gray-50">
-                          <SelectItem value="1">1</SelectItem>
-                          <SelectItem value="2">2</SelectItem>
-                          <SelectItem value="3">3</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                </div>
-
-                
-
-                {/* Assigned To (Mechanic) - Opsional */}
-                  <FormField
-                    control={form.control}
-                    name="assignedToId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-800 font-semibold">
-                          Ditugaskan Kepada (Opsional)
-                        </FormLabel>
-
-                        <Select
-                          onValueChange={(value) =>
-                            field.onChange(value ? parseInt(value) : undefined)
-                          }
-                          value={field.value?.toString()}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="border-gray-300 focus:border-orange-500">
-                              <SelectValue placeholder="Pilih ID Mekanik" />
-                            </SelectTrigger>
-                          </FormControl>
-
-                          <SelectContent className="bg-gray-50">
-                            <SelectItem value="1">1</SelectItem>
-                            <SelectItem value="2">2</SelectItem>
-                            <SelectItem value="3">3</SelectItem>
-                          </SelectContent>
-                        </Select>
-
-                       
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-
-
-                <div className="flex col-2  gap-3 ">
-                     {/* Start Date - Opsional */}
-                <FormField
-                  control={form.control}
-                  name="startDate"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="text-gray-800 font-semibold">Tanggal Mulai Perbaikan (Opsional)</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              className={cn(
-                                "pl-3 text-left font-normal border-gray-300",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? format(field.value, "PPP") : <span>Pilih tanggal</span>}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) => date < new Date("1900-01-01")}
-                            initialFocus className="bg-gray-50"
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* End Date - Opsional */}
-                <FormField
-                  control={form.control}
-                  name="endDate"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="text-gray-800 font-semibold">Tanggal Selesai Perbaikan (Opsional)</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              className={cn(
-                                "pl-3 text-left font-normal border-gray-300",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? format(field.value, "PPP") : <span>Pilih tanggal</span>}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) => date < new Date("1900-01-01")}
-                            initialFocus className="bg-gray-50"
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                </div>
-
-               
-
-                {/* Notes */}
-                <FormField
-                  control={form.control}
-                  name="notes"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-800 font-semibold">Catatan Tambahan (Opsional)</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Catatan dari operator atau mekanik..."
-                          className="resize-none min-h-15 border-gray-300 focus:border-orange-500 focus:ring-orange-500"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="flex justify-end">
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-8 shadow-lg"
-                  >
-                    Submit Perintah Perbaikan
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-
-
-				
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-					
-				
-				<Dialog.Close asChild>
-					<button
-						className="absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center rounded-full text-violet11 bg-gray3 hover:bg-orange-500 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
-						aria-label="Close"
-					>
-						<Cross2Icon />
-					</button>
-				</Dialog.Close>
-			</Dialog.Content>
-		</Dialog.Portal>
-	</Dialog.Root>
-	  );
-};
 
 export default DialogRepairOrder;

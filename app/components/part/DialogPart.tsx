@@ -1,161 +1,134 @@
 "use client";
-
 import * as React from "react";
-import { Dialog } from "radix-ui";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription, 
+  DialogTrigger 
+} from "../ui/dialog";
 import { useState } from "react";
 import * as Label from "@radix-ui/react-label";
+import { Package, ShieldCheck, PlusSquare } from "lucide-react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
-
-
-export function DialogPart () {
-
-	const [form, setForm] = useState({
-	name: "",
-	description: "",
-	stock: "",
+export function DialogPart() {
+  const [form, setForm] = useState({
+    name: "",
+    description: "",
+    stock: "",
   });
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-	setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   }
 
   async function handleSubmit(e: React.FormEvent) {
-	e.preventDefault();
-
-	await fetch("/api/part", {
-	  method: "POST",
-	  headers: { "Content-Type": "application/json" },
-	  body: JSON.stringify(form),
-	}).then(() => {
-	  setForm({
-		name: "",
-		description: "",
-		stock: "",
-	  });
-
-
-	});
-
-	window.location.reload();
+    e.preventDefault();
+    await fetch("/api/part", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    }).then(() => {
+      setForm({
+        name: "",
+        description: "",
+        stock: "",
+      });
+    });
+    window.location.reload();
   }
 
-return (
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="bg-orange-600 hover:bg-orange-700 text-white shadow-lg shadow-orange-600/20">
+          <PlusSquare className="size-4 mr-2" />
+          Tambah Part
+        </Button>
+      </DialogTrigger>
+      
+      <DialogContent className="sm:max-w-[450px]">
+        <DialogHeader>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 bg-cyan-500/10 rounded-lg">
+              <Package className="size-5 text-cyan-500" />
+            </div>
+            <div>
+              <DialogTitle>Inventory Protocol</DialogTitle>
+              <DialogDescription>Register new technical component</DialogDescription>
+            </div>
+          </div>
+        </DialogHeader>
 
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 gap-4">
+            {/* Part Name */}
+            <div className="space-y-1.5">
+              <Label.Root className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                01 Component_Name
+              </Label.Root>
+              <Input
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                className="bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-cyan-500/50"
+                placeholder="part_identifier_str"
+                required
+              />
+            </div>
 
+            {/* Description */}
+            <div className="space-y-1.5">
+              <Label.Root className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                02 Technical_Specifications
+              </Label.Root>
+              <Input
+                type="text"
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                className="bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-cyan-500/50"
+                placeholder="component_description_log"
+                required
+              />
+            </div>
 
-	<Dialog.Root>
+            {/* Stock */}
+            <div className="space-y-1.5">
+              <Label.Root className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                03 Inventory_Reserve
+              </Label.Root>
+              <Input
+                type="text"
+                name="stock"
+                value={form.stock}
+                onChange={handleChange}
+                className="bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-orange-500/50"
+                placeholder="current_stock_level"
+                required
+              />
+            </div>
+          </div>
 
-		{/* // Trigger Button */}
-		<Dialog.Trigger asChild>
-			<button className="inline-flex h-[35px] items-center justify-center rounded bg-violet4 px-[15px] font-medium leading-none text-violet11 outline-none outline-offset-1 hover:bg-mauve3 focus-visible:outline-2 focus-visible:outline-violet6 select-none bg-orange-500 text-white">
-				Tambah Part
-			</button>
-		</Dialog.Trigger>
-		{/* // The Modal Content */}
-		<Dialog.Portal>
-			<Dialog.Overlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow bg-blackA9" />
-			<Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[500px] -translate-x-1/2 -translate-y-1/2 bg-gray-100 shadow-lg focus:outline-none data-[state=open]:animate-contentShow">
-				
-		
-	<div>
-	  <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border">
-
-		{/* HEADER */}
-		<div className="bg-orange-600 text-white px-8 py-6 rounded-t-xl">
-		  <h1 className="text-2xl font-bold">
-			tambah part Baru
-		  </h1>
-		  <p className="text-orange-100 text-sm">
-			Form pendaftaran part sistem
-		  </p>
-		</div>
-
-		{/* FORM */}
-		<form onSubmit={handleSubmit} className="p-8 space-y-6">
-
-		  {/* Username */}
-		  <div className="space-y-1">
-			<Label.Root className="font-semibold">
-			  Nama Part
-			</Label.Root>
-			<input
-			  name="name"
-			  value={form.name}
-			  onChange={handleChange}
-			  className="w-full border rounded-md px-3 py-2"
-			  placeholder="nama part"
-			  required
-			/>
-		  </div>
-
-		  {/* Email */}
-		  <div className="space-y-1">
-			<Label.Root className="font-semibold">
-			  Deskripsi
-			</Label.Root>
-			<input
-			  type="text"
-			  name="description"
-			  value={form.description}
-			  onChange={handleChange}
-			  className="w-full border rounded-md px-3 py-2"
-			  placeholder="deskripsi mesin"
-			  required
-			/>
-		  </div>
-
-		  {/* Password */}
-		  <div className="space-y-1">
-			<Label.Root className="font-semibold">
-			  stock
-			</Label.Root>
-			<input
-			  type="text"
-			  name="stock"
-			  value={form.stock}
-			  onChange={handleChange}
-			  className="w-full border rounded-md px-3 py-2"
-			  placeholder="stock part"
-			  required
-			/>
-		  </div>
-		  
-
-		  {/* SUBMIT */}
-		  <div className="flex justify-end pt-4">
-			<button
-			  type="submit"
-			  className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-md font-semibold"
-			>
-			  Simpan Part
-			</button>
-		  </div>
-		</form>
-	  </div>
-
-	  <Dialog.Close asChild>
-					<button
-						className="absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center rounded-full text-violet11 bg-gray3 hover:bg-orange-500 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
-						aria-label="Close"
-					>
-						<Cross2Icon />
-					</button>
-				</Dialog.Close>
-	</div>
-
-
-
-				
-			</Dialog.Content>
-		</Dialog.Portal>
-	</Dialog.Root>
+          <div className="flex items-center justify-between pt-6 mt-6 border-t border-white/5">
+            <div className="flex items-center gap-2 text-[10px] font-mono text-slate-600 uppercase tracking-tighter">
+              <ShieldCheck className="size-3 text-cyan-500/50" />
+              DATABASE_WRITE_READY
+            </div>
+            <Button
+              type="submit"
+              className="bg-white text-slate-950 hover:bg-cyan-500 hover:text-white font-black uppercase italic tracking-widest px-8 shadow-lg shadow-white/5"
+            >
+              Commit Part
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
-
-	
-	  ;
-
 }
-
 
 export default DialogPart;

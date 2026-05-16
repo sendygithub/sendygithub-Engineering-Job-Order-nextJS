@@ -138,61 +138,15 @@ export function EngineeringDashboard() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.08),_transparent_30%),#effbff] text-slate-900">
       {/* Sidebar */}
-      <aside
-        className={`fixed top-0 left-0 h-full bg-slate-800 text-white transition-all duration-300 z-20 ${
-          sidebarOpen ? "w-64" : "w-20"
-        }`}
-      >
-        <div className="p-4 border-b border-slate-700">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
-              <Factory className="size-6" />
-            </div>
-            {sidebarOpen && (
-              <div className="overflow-hidden">
-                <div className="font-bold text-sm">PT. Gajah Tunggal</div>
-                <div className="text-xs text-slate-400">Engineering</div>
-              </div>
-            )}
-          </div>
-        </div>
 
-        <nav className="p-4 space-y-2">
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-sky-600 hover:bg-sky-700 transition-colors text-white">
-            <ClipboardList className="size-5 shrink-0" />
-            {sidebarOpen && <span>Job Orders</span>}
-          </button>
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors">
-            <Wrench className="size-5 shrink-0" />
-            {sidebarOpen && <Link href="/input">Maintenance</Link>}
-          </button>
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors">
-            <Package className="size-5 shrink-0" />
-            {sidebarOpen && <span>Inventoryss</span>}
-          </button>
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors">
-            <Calendar className="size-5 shrink-0" />
-            {sidebarOpen && <span>Schedule</span>}
-          </button>
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors">
-            <FileText className="size-5 shrink-0" />
-            {sidebarOpen && <span>Reports</span>}
-          </button>
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700 transition-colors">
-            <Settings className="size-5 shrink-0" />
-            {sidebarOpen && <span>Settings</span>}
-          </button>
-        </nav>
-      </aside>
 
       {/* Main Content */}
       <div
-        className={`transition-all duration-300 ${
-          sidebarOpen ? "ml-64" : "ml-20"
-        }`}
+        className={`transition-all duration-300 ${sidebarOpen ? "ml-64" : "ml-20"
+          }`}
       >
         {/* Header */}
-        
+
 
         {/* Dashboard Content */}
         <main className="p-4 md:p-6 space-y-6">
@@ -254,7 +208,7 @@ export function EngineeringDashboard() {
             </Card>
           </div>
 
-          
+
 
           {/* ********************************************************************Job Orders Table************************************************************************** */}
           <Card className="p-4 md:p-6">
@@ -273,12 +227,12 @@ export function EngineeringDashboard() {
                 <Button variant="outline" size="icon">
                   <Filter className="size-4" />
                 </Button>
-               
-                  <Button className="bg-orange-600 hover:bg-orange-700">
-                    <Plus className="size-4 mr-2" />
-                    New Order
-                  </Button>
-                
+
+                <Button className="bg-orange-600 hover:bg-orange-700">
+                  <Plus className="size-4 mr-2" />
+                  New Order
+                </Button>
+
               </div>
             </div>
 

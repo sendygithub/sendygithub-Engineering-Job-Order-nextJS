@@ -27,12 +27,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className="w-full min-h-screen overflow-hidden">
         <Theme>
-          <div className="page-shell">
-            <NavLink />
-            <main className="content-shell animate-fade-in">{children}</main>
-          </div>
+
+          <NavLink />
+          {children}
+
         </Theme>
       </body>
     </html>

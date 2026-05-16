@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Eye, EyeOff, Lock, Mail, Settings, CircuitBoard, Cpu } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, Settings, CircuitBoard, Cpu, ShieldCheck } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -15,226 +15,162 @@ export function LoginAdmin() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Login attempted with:", { email, password, rememberMe });
-    // Handle login logic here
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 relative overflow-hidden flex items-center justify-center p-4">
-      {/* Technical Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url('https://images.unsplash.com/photo-1764737734436-7eb904d3a4ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbmdpbmVlcmluZyUyMGJsdWVwcmludCUyMHRlY2huaWNhbHxlbnwxfHx8fDE3NjcyMDExMjh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral')` 
-          }}
-        />
-      </div>
-
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-20"></div>
-      
-      {/* Animated Technical Elements */}
-      <div className="absolute top-20 left-10 text-orange-500 opacity-20 animate-spin-slow">
-        <Settings className="size-24" />
-      </div>
-      <div className="absolute bottom-20 right-10 text-cyan-500 opacity-20 animate-spin-reverse">
-        <Settings className="size-32" />
-      </div>
-      <div className="absolute top-1/2 right-1/4 text-blue-500 opacity-10">
-        <CircuitBoard className="size-40" />
+    <div className="min-h-screen bg-[#020617] relative overflow-hidden flex items-center justify-center p-4 selection:bg-cyan-500/30">
+      {/* Background Tech Pattern */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(14,165,233,0.1),transparent_70%)]"></div>
+        
+        {/* Floating Particles/Glows */}
+        <div className="absolute top-[20%] left-[10%] w-[30%] h-[30%] bg-cyan-500/10 blur-[120px] rounded-full animate-pulse"></div>
+        <div className="absolute bottom-[20%] right-[10%] w-[30%] h-[30%] bg-orange-500/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
       <div className="w-full max-w-md relative z-10">
-        {/* Logo/Brand Section */}
-        <div className="text-center mb-8">
-          {/* Technical Logo */}
-          <div className="relative w-20 h-20 mx-auto mb-6">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg transform rotate-45"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Cpu className="size-10 text-white relative z-10" />
+        {/* Header Section */}
+        <div className="text-center mb-10">
+          <div className="relative inline-block mb-6">
+            <div className="absolute inset-0 bg-cyan-500 blur-2xl opacity-20 animate-pulse"></div>
+            <div className="relative w-20 h-20 bg-slate-900 border border-slate-700 rounded-2xl flex items-center justify-center transform rotate-45 group hover:rotate-[225deg] transition-transform duration-700">
+              <div className="transform -rotate-45 group-hover:-rotate-[225deg] transition-transform duration-700">
+                <Cpu className="size-10 text-cyan-500" />
+              </div>
+              {/* Corner Accents */}
+              <div className="absolute -top-1 -left-1 w-4 h-4 border-l-2 border-t-2 border-cyan-500/50"></div>
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 border-r-2 border-b-2 border-cyan-500/50"></div>
             </div>
-            {/* Corner accents */}
-            <div className="absolute -top-1 -left-1 w-3 h-3 border-l-2 border-t-2 border-cyan-400"></div>
-            <div className="absolute -top-1 -right-1 w-3 h-3 border-r-2 border-t-2 border-cyan-400"></div>
-            <div className="absolute -bottom-1 -left-1 w-3 h-3 border-l-2 border-b-2 border-cyan-400"></div>
-            <div className="absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 border-cyan-400"></div>
           </div>
-          <h1 className="text-white mb-2">Engineering Portal</h1>
-          <p className="text-slate-400">Secure System Access</p>
-          <div className="flex items-center justify-center gap-2 mt-3">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-orange-500"></div>
-            <div className="text-xs text-orange-500 font-mono">v2.1.4</div>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-orange-500"></div>
+          
+          <h1 className="text-4xl font-black text-white tracking-tighter mb-2 uppercase italic">
+            Admin <span className="text-cyan-500">Portal</span>
+          </h1>
+          <div className="flex items-center justify-center gap-3">
+            <div className="h-px w-8 bg-slate-800"></div>
+            <p className="text-slate-500 font-mono text-xs tracking-widest uppercase">Authorization Required</p>
+            <div className="h-px w-8 bg-slate-800"></div>
           </div>
         </div>
 
-        {/* Login Form */}
-        <form onSubmit={handleLogin} className="relative">
-          {/* Technical border decoration */}
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-500 via-cyan-500 to-orange-500 rounded-2xl opacity-20 blur-sm"></div>
+        {/* Technical Form Card */}
+        <div className="relative group">
+          {/* Animated Border Gradient */}
+          <div className="absolute -inset-[1px] bg-gradient-to-r from-cyan-500/50 via-slate-700 to-orange-500/50 rounded-3xl opacity-30 group-hover:opacity-100 transition-opacity duration-500"></div>
           
-          <div className="relative bg-slate-800/90 backdrop-blur-sm rounded-2xl border border-slate-700 shadow-2xl p-6 space-y-5">
-            {/* Header Bar */}
-            <div className="flex items-center gap-2 pb-4 border-b border-slate-700">
+          <div className="relative bg-slate-950/80 backdrop-blur-3xl rounded-3xl p-8 border border-white/5 shadow-2xl">
+            {/* Top Bar Decoration */}
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
               <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-slate-800"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-slate-800"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-slate-800"></div>
               </div>
-              <div className="flex-1 text-center">
-                <span className="text-xs font-mono text-slate-500">AUTHENTICATION_SYSTEM</span>
-              </div>
-            </div>
-
-            {/* Email Field */}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-slate-300 flex items-center gap-2">
-                <span className="text-orange-500 font-mono text-xs">[01]</span>
-                Email Address
-              </Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-slate-500" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="engineer@system.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 bg-slate-900/50 border-slate-600 text-white placeholder:text-slate-500 focus:border-orange-500"
-                  required
-                />
+              <div className="flex items-center gap-2 text-[10px] font-mono text-cyan-500/70 uppercase tracking-tighter">
+                <ShieldCheck className="size-3" />
+                SSL_ENCRYPTED_SESSION
               </div>
             </div>
 
-            {/* Password Field */}
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-300 flex items-center gap-2">
-                <span className="text-cyan-500 font-mono text-xs">[02]</span>
-                Access Code
-              </Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-slate-500" />
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 pr-10 bg-slate-900/50 border-slate-600 text-white placeholder:text-slate-500 focus:border-cyan-500"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-cyan-400 transition-colors"
-                >
-                  {showPassword ? (
-                    <EyeOff className="size-5" />
-                  ) : (
-                    <Eye className="size-5" />
-                  )}
+            <form onSubmit={handleLogin} className="space-y-6">
+              {/* Identity Field */}
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1 flex items-center gap-2">
+                  <span className="text-cyan-500">01</span> Identification
+                </Label>
+                <div className="relative group/input">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-slate-600 group-focus-within/input:text-cyan-500 transition-colors" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="admin@internal.net"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="h-14 pl-12 bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-cyan-500/50 focus:ring-0 rounded-xl font-mono text-sm"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Security Key Field */}
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1 flex items-center gap-2">
+                  <span className="text-orange-500">02</span> Access Key
+                </Label>
+                <div className="relative group/input">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-slate-600 group-focus-within/input:text-orange-500 transition-colors" />
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="h-14 pl-12 pr-12 bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-orange-500/50 focus:ring-0 rounded-xl font-mono text-sm"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-white transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Remember & Reset */}
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="remember"
+                    checked={rememberMe}
+                    onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                    className="border-slate-800 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
+                  />
+                  <label htmlFor="remember" className="text-[10px] text-slate-500 font-mono uppercase tracking-tighter cursor-pointer">
+                    Remember Identity
+                  </label>
+                </div>
+                <button type="button" className="text-[10px] text-slate-600 hover:text-orange-500 font-mono uppercase tracking-tighter transition-colors">
+                  Recover_Access
                 </button>
               </div>
-            </div>
 
-            {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="remember"
-                  checked={rememberMe}
-                  onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-                  className="border-slate-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
-                />
-                <label
-                  htmlFor="remember"
-                  className="text-sm text-slate-400 cursor-pointer select-none"
-                >
-                  Remember Session
-                </label>
-              </div>
-              <button
-                type="button"
-                className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors font-mono"
-              >
-                Reset_Auth
-              </button>
-            </div>
-
-            {/* Login Button */}
-            <div className="pt-2">
+              {/* Login Button */}
               <Button 
                 type="submit" 
-                className="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white border-0 shadow-lg shadow-orange-500/20" 
+                className="w-full h-14 bg-white text-slate-950 hover:bg-cyan-500 hover:text-white font-black uppercase italic tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.3)]" 
                 size="lg"
               >
-                <Lock className="size-4" />
-                Initialize Access
+                Execute Initialization
               </Button>
-            </div>
+            </form>
+          </div>
+        </div>
 
-            {/* Status Bar */}
-            <div className="pt-4 border-t border-slate-700">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                  <span className="text-slate-500">SYSTEM_ONLINE</span>
-                </div>
-                <div className="text-slate-600">
-                  {new Date().toLocaleTimeString('en-US', { hour12: false })}
-                </div>
-              </div>
-            </div>
+        {/* Technical Footer */}
+        <div className="mt-10 flex flex-col items-center gap-4">
+          <div className="flex items-center gap-6 text-[10px] font-mono text-slate-600 tracking-[0.2em]">
+            <span>NODE_01</span>
+            <div className="w-1 h-1 rounded-full bg-slate-800"></div>
+            <span>PORT_8080</span>
+            <div className="w-1 h-1 rounded-full bg-slate-800"></div>
+            <span>AES_256</span>
           </div>
-        </form>
-
-        {/* Footer Info */}
-        <div className="mt-6 space-y-3">
-          <div className="text-center">
-            <p className="text-sm text-slate-500 font-mono">
-              Need Credentials?{" "}
-              <button className="text-orange-400 hover:text-orange-300 transition-colors">
-                Request_Access
-              </button>
-            </p>
-          </div>
-          
-          {/* Technical Footer */}
-          <div className="flex items-center justify-center gap-4 text-xs text-slate-600 font-mono">
-            <span>IPv4: 192.168.1.1</span>
-            <span>•</span>
-            <span>PORT: 8443</span>
-            <span>•</span>
-            <span>SSL: Active</span>
-          </div>
+          <p className="text-[9px] text-slate-700 font-mono max-w-[200px] text-center leading-relaxed">
+            UNAUTHORIZED ACCESS IS STRICTLY PROHIBITED AND SUBJECT TO SYSTEM LOGGING
+          </p>
         </div>
       </div>
 
-      {/* CSS for grid pattern */}
+      {/* Global CSS Patterns */}
       <style>{`
         .bg-grid-pattern {
           background-image: 
-            linear-gradient(rgba(148, 163, 184, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(148, 163, 184, 0.1) 1px, transparent 1px);
-          background-size: 20px 20px;
-        }
-        
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        
-        @keyframes spin-reverse {
-          from { transform: rotate(360deg); }
-          to { transform: rotate(0deg); }
-        }
-        
-        .animate-spin-slow {
-          animation: spin-slow 20s linear infinite;
-        }
-        
-        .animate-spin-reverse {
-          animation: spin-reverse 15s linear infinite;
+            linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+          background-size: 40px 40px;
         }
       `}</style>
     </div>

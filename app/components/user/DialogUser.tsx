@@ -1,37 +1,35 @@
 "use client";
 import * as React from "react";
-import * as Dialog from "@radix-ui/react-dialog";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription, 
+  DialogTrigger 
+} from "../ui/dialog";
 import * as Label from "@radix-ui/react-label";
 import * as Select from "@radix-ui/react-select";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { ChevronDown} from "lucide-react";
+import { ChevronDown, UserPlus, ShieldCheck } from "lucide-react";
 import { useState } from "react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
-
-
-
-// deklarasi fungsi DialogUser
-export default function DialogUser () {
-
-
-
-  // deklarasi state form user
-const [form, setForm] = useState({
-	username: "",
-	email: "",
-	password: "",
-	role: "",
-	fullName: "",
+export default function DialogUser() {
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: "",
+    fullName: "",
   });
 
-  // fungsi handleChange untuk mengubah state form
-function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
-  // fungsi handleSubmit untuk mengirim data form ke API
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
     await fetch("/api/user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -45,218 +43,145 @@ function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         fullName: "",
       });
     });
-
-
-     window.location.reload();
+    window.location.reload();
   }
 
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="bg-orange-600 hover:bg-orange-700 text-white shadow-lg shadow-orange-600/20">
+          <UserPlus className="size-4 mr-2" />
+          Tambah User
+        </Button>
+      </DialogTrigger>
+      
+      <DialogContent className="sm:max-w-[500px]">
+        <DialogHeader>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 bg-cyan-500/10 rounded-lg">
+              <UserPlus className="size-5 text-cyan-500" />
+            </div>
+            <div>
+              <DialogTitle>Buat User Baru</DialogTitle>
+              <DialogDescription>Form pendaftaran user sistem</DialogDescription>
+            </div>
+          </div>
+        </DialogHeader>
 
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 gap-4">
+            {/* Username */}
+            <div className="space-y-1.5">
+              <Label.Root className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                Username
+              </Label.Root>
+              <Input
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+                className="bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-cyan-500/50"
+                placeholder="username_identity"
+                required
+              />
+            </div>
 
+            {/* Full Name */}
+            <div className="space-y-1.5">
+              <Label.Root className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                Nama Lengkap (Opsional)
+              </Label.Root>
+              <Input
+                name="fullName"
+                value={form.fullName}
+                onChange={handleChange}
+                className="bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-cyan-500/50"
+                placeholder="full_name_string"
+              />
+            </div>
 
+            {/* Email */}
+            <div className="space-y-1.5">
+              <Label.Root className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                Email Address
+              </Label.Root>
+              <Input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                className="bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-cyan-500/50"
+                placeholder="identity@system.com"
+                required
+              />
+            </div>
 
+            {/* Password */}
+            <div className="space-y-1.5">
+              <Label.Root className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                Access Code
+              </Label.Root>
+              <Input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                className="bg-slate-900/50 border-slate-800 text-white placeholder:text-slate-700 focus:border-orange-500/50"
+                placeholder="••••••••"
+                required
+              />
+            </div>
 
-return (
+            {/* Role */}
+            <div className="space-y-1.5">
+              <Label.Root className="text-[10px] font-mono text-slate-500 uppercase tracking-widest ml-1">
+                Access Level (Role)
+              </Label.Root>
+              <Select.Root
+                value={form.role}
+                onValueChange={(value) =>
+                  setForm((prev) => ({ ...prev, role: value }))
+                }
+              >
+                <Select.Trigger className="flex items-center justify-between w-full h-10 px-3 bg-slate-900/50 border border-slate-800 rounded-md text-sm text-white focus:border-cyan-500/50 outline-none transition-all">
+                  <Select.Value placeholder="Select Privilege" />
+                  <Select.Icon>
+                    <ChevronDown size={16} className="text-slate-500" />
+                  </Select.Icon>
+                </Select.Trigger>
 
-	<Dialog.Root>
-		{/* // Trigger Button */}
-		<Dialog.Trigger asChild>
-			<button className="inline-flex h-[35px] items-center justify-center rounded bg-violet4 px-[15px] font-medium leading-none text-violet11 outline-none outline-offset-1 hover:bg-mauve3 focus-visible:outline-2 focus-visible:outline-violet6 select-none bg-orange-500 text-white">
-				Tambah User
-			</button>
-		</Dialog.Trigger>
-		{/* // The Modal Content */}
-		<Dialog.Portal>
-			<Dialog.Overlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow bg-blackA9" />
-			<Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[500px] -translate-x-1/2 -translate-y-1/2 bg-gray-100 shadow-lg focus:outline-none data-[state=open]:animate-contentShow">
-
-
-				<div >
-      <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border">
-
-        {/* HEADER */}
-        <div className="bg-orange-600 text-white px-8 py-6 rounded-t-xl">
-          <h1 className="text-2xl font-bold">
-            Buat User Baru
-          </h1>
-          <p className="text-orange-100 text-sm">
-            Form pendaftaran user sistem
-          </p>
-        </div>
-
-        {/* FORM */}
-        <form onSubmit={handleSubmit} className="p-8 space-y-6">
-
-          {/* Username */}
-          <div className="space-y-1">
-            <Label.Root className="font-semibold">
-              Username
-            </Label.Root>
-            <input
-              name="username"
-              value={form.username}
-              onChange={handleChange}
-              className="w-full border rounded-md px-3 py-2"
-              placeholder="username"
-              required
-            />
+                <Select.Portal>
+                  <Select.Content className="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl z-[100] overflow-hidden">
+                    <Select.Viewport className="p-1">
+                      {["OPERATOR", "MECHANIC", "ADMIN"].map((role) => (
+                        <Select.Item
+                          key={role}
+                          value={role}
+                          className="px-8 py-2.5 text-xs font-mono text-slate-400 cursor-pointer hover:bg-cyan-500/10 hover:text-cyan-400 outline-none relative flex items-center select-none"
+                        >
+                          <Select.ItemText>{role}</Select.ItemText>
+                        </Select.Item>
+                      ))}
+                    </Select.Viewport>
+                  </Select.Content>
+                </Select.Portal>
+              </Select.Root>
+            </div>
           </div>
 
-          {/* Full Name */}
-          <div className="space-y-1">
-            <Label.Root className="font-semibold">
-              Nama Lengkap (Opsional)
-            </Label.Root>
-            <input
-              name="fullName"
-              value={form.fullName}
-              onChange={handleChange}
-              className="w-full border rounded-md px-3 py-2"
-              placeholder="Nama lengkap"
-            />
-          </div>
-
-          {/* Email */}
-          <div className="space-y-1">
-            <Label.Root className="font-semibold">
-              Email
-            </Label.Root>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full border rounded-md px-3 py-2"
-              placeholder="email@company.com"
-              required
-            />
-          </div>
-
-          {/* Password */}
-          <div className="space-y-1">
-            <Label.Root className="font-semibold">
-              Password
-            </Label.Root>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className="w-full border rounded-md px-3 py-2"
-              placeholder="********"
-              required
-            />
-          </div>
-
-          <div className="space-y-1">
-                     <Label.Root className="font-semibold">
-                        Role
-                     </Label.Root>
-         
-                     <Select.Root
-                       value={form.role}
-                       onValueChange={(value) =>
-                         setForm((prev) => ({ ...prev, role: value }))
-                       }
-                     >
-                       <Select.Trigger className="inline-flex items-center justify-between w-full px-3 py-2 border rounded-md bg-white hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                         <Select.Value placeholder="Pilih role" />
-                         <Select.Icon>
-                           <ChevronDown size={16} />
-                         </Select.Icon>
-                       </Select.Trigger>
-         
-                       <Select.Portal>
-                         <Select.Content className="bg-white border rounded-md shadow z-50">
-                           <Select.Viewport>
-                             <Select.Item
-                               value="OPERATOR"
-                               className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                             >
-                               <Select.ItemText>OPERATOR</Select.ItemText>
-                             </Select.Item>
-         
-                             <Select.Item
-                               value="MECHANIC"
-                               className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                             >
-                               <Select.ItemText>MECHANIC</Select.ItemText>
-                             </Select.Item>
-         
-                             <Select.Item
-                               value="ADMIN"
-                               className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                             >
-                               <Select.ItemText>ADMIN</Select.ItemText>
-                             </Select.Item>
-                           </Select.Viewport>
-                         </Select.Content>
-                       </Select.Portal>
-                     </Select.Root>
-                   </div>
-
-          
-
-          {/* SUBMIT */}
-          <div className="flex justify-end pt-4">
-            <button
+          <div className="flex items-center justify-between pt-6 mt-6 border-t border-white/5">
+            <div className="flex items-center gap-2 text-[10px] font-mono text-slate-600 uppercase tracking-tighter">
+              <ShieldCheck className="size-3 text-cyan-500/50" />
+              SECURE_ACTION
+            </div>
+            <Button
               type="submit"
-              className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-md font-semibold"
+              className="bg-white text-slate-950 hover:bg-cyan-500 hover:text-white font-black uppercase italic tracking-widest px-8 shadow-lg shadow-white/5"
             >
-              Simpan User
-            </button>
+              Initialize User
+            </Button>
           </div>
         </form>
-		
-      </div>
-    </div>
-
-
-				
-					
-				
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				<Dialog.Close asChild>
-					<button
-						className="absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center rounded-full text-violet11 bg-gray3 hover:bg-orange-500 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
-						aria-label="Close"
-					>
-						<Cross2Icon />
-					</button>
-				</Dialog.Close>
-			</Dialog.Content>
-		</Dialog.Portal>
-	</Dialog.Root>
-)
-};
-
-
+      </DialogContent>
+    </Dialog>
+  );
+}
